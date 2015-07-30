@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RocketConf 2015 — A three-day single track conference for modern web developers</title>
+  <meta content="RocketConf Launch Control" name="author">
+  <meta content="RocketConf 2015 is a three-day single track conference for modern web developers on 11-13 November 2015 in Amsterdam, The Netherlands" name="description">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="RocketConf 2015, 11-13 November, Amsterdam The Netherlands" />
+  <meta property="og:site_name" content="RocketConf 2015" />
+  <meta property="og:url" content="http://www.rocketconf.eu" />
+  <meta property="og:description" content="RocketConf 2015 is a three-day single track conference for modern web developers on 11-13 November 2015 in Amsterdam, The Netherlands">
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="http://www.rocketconf.eu/rocketconf-logo.png" />
+  <link rel="image_src" href="http://www.rocketconf.eu/rocketconf-logo.png" />
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#29abe2">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+  <meta name="theme-color" content="#29abe2">
+
+  <style>html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit;padding:0;margin:0}body{background:radial-gradient(ellipse at bottom,#1b2735 0,#090a0f 100%);background-color:#000;font-family:'ff-tisa-web-pro',serif;font-size:24px}input,table{font-family:inherit;font-size:inherit}section{-webkit-transform:translate3d(0,0,0);position:relative;padding:3em}article{max-width:40em;margin:0 auto}h1{font-size:5em}h2{font-size:3em}h3{font-size:2em}h4{font-size:1em}h1,h2,h3,h4{font-family:'komu-a',sans-serif;text-transform:uppercase;margin-bottom:.5em;color:#29abe2;text-align:center;font-weight:normal}p{line-height:1.5;margin-bottom:1.5em}a{color:#29abe2}ul{list-style:none}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.button{text-decoration:none;background:#29abe2;color:#fff;text-align:center;display:inline-block;padding:.5em 1.5em .25em 1.5em;border-radius:3px;font-family:'komu-a',sans-serif;font-size:1.5em;margin:0 auto;border:0}.button:hover,.button:focus{text-decoration:underline}.center-text{text-align:center}.splash{position:fixed;top:0;left:0;right:0;bottom:0;height:100%;overflow:hidden;perspective:340px;-webkit-perspective:340px;padding:0 1em}.logo{display:block;margin:0 auto;height:50vh;max-width:100%;margin-top:25vh;opacity:0;transform:scale(0) rotate(-90deg);animation:enterLogo .5s 1s forwards cubic-bezier(0.55,0,0.1,1);-webkit-animation:enterLogo .5s 1s forwards cubic-bezier(0.55,0,0.1,1)}@keyframes enterLogo{to{opacity:1;transform:scale(1) rotate(0deg)}}@-webkit-keyframes enterLogo{to{opacity:1;transform:scale(1) rotate(0deg)}}.stars{position:absolute;top:50%;left:50%;width:1px;height:1px;box-shadow:24px 325px white,-64px 175px #d6d6d6,521px 385px #cfcfcf,-449px -204px #ccc,186px -72px #c9c9c9,-725px -293px #c4c4c4,593px -156px #ccc,47px 114px #e3e3e3,-376px 254px #d9d9d9,-13px 150px #d4d4d4,-161px 329px #e6e6e6,60px 22px #f2f2f2,273px -335px #d4d4d4,-23px 266px #ebebeb,163px -135px #d4d4d4,168px 49px white,81px 428px #ccc,-451px -279px #c4c4c4,-6px -96px #fcfcfc,-301px 109px #e0e0e0,675px 124px #f7f7f7,190px 101px #e3e3e3,393px 405px white,-250px 159px #fafafa,-671px 229px #fafafa,316px 472px #e6e6e6,281px 373px #fafafa,427px -161px #ebebeb,160px -233px #e0e0e0,-164px 39px whitesmoke,311px 196px #cfcfcf,-129px -26px #dbdbdb,42px 353px #ebebeb,-175px 13px whitesmoke,229px 321px whitesmoke,155px 136px #cfcfcf,-615px 47px #f2f2f2,136px 458px #c4c4c4,690px 402px #dbdbdb,733px -23px white,-136px -37px #f7f7f7,-444px -360px #d1d1d1,-462px 241px #ebebeb,49px -244px #fcfcfc,33px 263px #c2c2c2,625px 357px #ebebeb,3px -398px #d6d6d6,326px -391px #fcfcfc,235px -246px #e8e8e8,-365px 86px #dedede,-688px -107px #c2c2c2,356px -190px white,-653px -86px #e3e3e3,407px -222px #fafafa,-120px 9px #f7f7f7,656px -437px #c9c9c9,-576px -57px #ededed,-229px 310px #e6e6e6,147px 340px #dedede,746px -346px #c7c7c7,42px -38px #ebebeb,-725px 363px #d9d9d9,229px 71px #d4d4d4,383px -159px #d6d6d6,-329px 383px white,171px 12px #d4d4d4,-40px -467px #f0f0f0,53px -109px #d4d4d4,-252px -147px #ccc,-209px 388px #dedede,722px 251px #c2c2c2,-442px -479px #ccc,-602px -297px #e3e3e3,121px 457px #cfcfcf,-691px -229px #c7c7c7,-14px 328px white,-178px 387px white,-261px 197px #f2f2f2,-74px -232px #d1d1d1,-364px 239px white,537px 383px #ededed,-219px -104px #f7f7f7,343px 288px #fcfcfc,-22px 239px #e8e8e8,104px 132px #d6d6d6,439px 57px #c7c7c7,67px 388px #e3e3e3,315px -226px #d1d1d1,178px -436px #cfcfcf,598px 112px #ebebeb,682px 396px #f7f7f7,571px -307px #d9d9d9,298px 226px #e0e0e0,324px 15px #fafafa,-719px -17px #e6e6e6,508px 293px #e6e6e6,-212px 265px white,60px 466px #c7c7c7,-31px 250px #c4c4c4,690px -377px #e0e0e0,258px 280px #d9d9d9,-105px 316px #f0f0f0,-49px -165px #c9c9c9,188px 324px #e8e8e8,380px 266px #dedede,-522px 349px #c7c7c7,-444px -329px #c7c7c7,-629px 452px #d6d6d6,52px -214px #f2f2f2,709px -380px #fafafa,-691px -159px #f2f2f2,416px 159px #f2f2f2,161px -376px whitesmoke,450px 381px #c2c2c2,488px 30px #ccc,284px -347px #e8e8e8,-166px -58px #f2f2f2,-331px -196px #d6d6d6,-704px 187px #d9d9d9,123px 353px #c9c9c9,-190px 334px #e6e6e6,523px -38px #f7f7f7,-387px 89px #ebebeb,82px -363px #d1d1d1,-46px 138px #dedede,-574px -58px #d9d9d9,-280px 16px #dedede,-612px 4px #e3e3e3,-12px -336px #ebebeb,-355px -245px #f7f7f7,-38px -297px #fafafa,-421px 401px #cfcfcf,-569px -10px #cfcfcf,-582px -388px #e3e3e3,-602px -322px #f7f7f7,-564px -147px #e3e3e3,-684px 185px #cfcfcf,659px -389px #d6d6d6,-111px 104px #e8e8e8,-160px 366px #c4c4c4,413px 344px whitesmoke,-507px 228px #c4c4c4,219px 477px #e3e3e3,-662px -14px #e0e0e0,-377px 406px white,560px -227px #d1d1d1,712px 204px #d4d4d4,349px -435px #c2c2c2,-121px -373px #e6e6e6,-397px -143px #ededed,-119px 380px #d1d1d1,126px 425px #fcfcfc,-479px 254px #e0e0e0,-481px 263px #e8e8e8,-570px 419px #d6d6d6,479px 196px #e0e0e0,254px 438px #dbdbdb,-85px 30px #c7c7c7,-582px 326px #dedede,66px -460px #ccc,-714px -22px whitesmoke,-368px -342px #e3e3e3,-426px -192px #f2f2f2,-495px 270px #fafafa,-195px 345px #f2f2f2,228px 304px #f7f7f7,-281px 293px #c7c7c7,-12px -77px #e8e8e8,-358px 244px #d1d1d1,418px 253px whitesmoke,283px -249px #f2f2f2,289px -119px whitesmoke,120px 161px #f0f0f0,732px -153px #e3e3e3,116px 20px #e0e0e0,-551px -478px #f0f0f0,-449px -162px #fcfcfc,-141px 165px #d4d4d4,-724px -126px #c2c2c2,-211px -446px #cfcfcf,-744px -393px #ededed,-383px -175px #dedede,-305px -317px #e8e8e8,413px 123px #f0f0f0,-334px -23px white,-675px -216px #cfcfcf,-405px 121px #c4c4c4,-168px 189px #fafafa,255px 466px #ededed,-610px -210px #d4d4d4,482px -362px #c7c7c7,270px -232px #c2c2c2,-525px -340px #f0f0f0,205px 20px #c4c4c4,429px -271px #cfcfcf,174px -222px #cfcfcf,-6px 384px #cfcfcf,-624px -430px #e0e0e0,-215px 66px #c7c7c7,-200px -210px #ededed,-662px 197px #d4d4d4,496px -215px #e8e8e8,-585px -263px #d4d4d4,303px 172px #c4c4c4,673px -212px #fafafa,-45px -374px #c7c7c7,-584px -37px #c2c2c2,315px 423px #c7c7c7,52px 191px #c4c4c4,-480px -286px #ededed,-65px 333px white,-438px -122px #fafafa,556px 14px whitesmoke,296px -205px #c2c2c2,676px -267px #c7c7c7,70px -239px white,473px -368px #ebebeb,-83px -219px white,-113px -431px #dbdbdb,-583px 79px #f7f7f7,-94px -69px #fcfcfc,688px 312px #d4d4d4,500px -348px #f2f2f2,150px 85px #cfcfcf,-476px 479px whitesmoke,-390px -25px #f7f7f7,-443px 480px #ccc,90px 397px #ebebeb,-536px -144px #e8e8e8,-664px 82px #fafafa,115px -467px #cfcfcf,57px 282px white,203px 442px #d9d9d9,391px -405px whitesmoke,682px -217px #c7c7c7,622px -177px #e3e3e3,345px 378px #c4c4c4,372px -5px #e0e0e0,-510px 176px #dedede,-267px -29px #dedede,204px 184px #dbdbdb,-481px -107px #d4d4d4,327px 227px #dbdbdb,-382px 230px #ccc,-514px -331px #f2f2f2,-489px -149px #e6e6e6,-487px -324px #dbdbdb,-456px -302px #ccc,120px 5px #d9d9d9,-245px -125px #c2c2c2,80px -149px #c4c4c4,-622px -73px #cfcfcf,176px -396px #d1d1d1,513px 331px #d4d4d4,141px -315px #e3e3e3,-105px -218px #c4c4c4,118px -438px #c9c9c9,-472px -389px #f7f7f7,-646px -262px #d4d4d4,-129px -103px #cfcfcf,571px 343px #dedede,-466px 126px #ededed,-65px -99px #e0e0e0,-137px 473px #ededed,-65px 438px #ccc,-489px -123px #c9c9c9,-57px -373px white,668px 91px #e3e3e3,-134px -114px #e6e6e6,-179px -351px #ebebeb,696px -397px #d4d4d4,-445px 268px #e3e3e3,19px 251px #e3e3e3,-696px -408px #ededed,-333px -235px #ededed,-423px 432px #ededed,76px -98px #c9c9c9,-581px -364px #ccc,-140px 199px #e6e6e6,279px -25px #d1d1d1,536px -149px whitesmoke,113px -344px #c4c4c4,143px 395px white,-435px -465px #c2c2c2,-135px -64px #c7c7c7,71px -129px #d4d4d4,265px -380px #d4d4d4,-231px 246px whitesmoke,-315px 195px #f0f0f0,65px -181px whitesmoke,440px 413px #e8e8e8,-308px -421px #d9d9d9,336px -132px #ededed,-70px 253px #e0e0e0,-360px 355px #d4d4d4,-360px 70px whitesmoke,643px 69px #e6e6e6,72px -408px #d1d1d1,-115px -365px #ededed,197px -124px #fafafa,151px 455px #c9c9c9,-583px -97px #c9c9c9,-418px -40px #dbdbdb,-28px -444px #dbdbdb,340px -409px whitesmoke,-634px 162px #ebebeb,328px 276px #dedede,500px -4px #c2c2c2,407px -203px #c9c9c9,-206px 204px #ebebeb,654px -353px #dbdbdb,693px 15px whitesmoke,684px 465px #d1d1d1,363px -268px #dedede,696px 452px #f2f2f2,-666px 381px #c9c9c9,494px 363px #c7c7c7,286px 104px #c4c4c4,-633px -467px #f2f2f2,610px 146px #dedede,-166px -4px #c4c4c4,217px -376px #ccc,-31px 155px #ccc,-661px -297px whitesmoke,-642px 47px #f0f0f0,-391px -254px #ededed,-126px 260px #e8e8e8,-39px 90px #dbdbdb,-543px 318px #ededed,538px 65px #e3e3e3,526px -467px #f0f0f0,502px 200px #dbdbdb,-685px 55px #d6d6d6,-15px -370px #f7f7f7,-201px 288px #c9c9c9,-135px 21px #c9c9c9,-157px 440px #cfcfcf,359px 91px #f2f2f2,61px -346px #e0e0e0,-524px -12px #d1d1d1,-351px -250px #c7c7c7,130px 467px #f7f7f7,-325px -398px #d1d1d1,604px 478px #fcfcfc,-149px 262px #ccc,103px 351px #c9c9c9,-619px -9px #dbdbdb,735px 11px #c2c2c2,-523px -11px #f7f7f7,701px 448px #f0f0f0,-304px 328px #e0e0e0;animation:fly 6s linear infinite;-webkit-animation:fly 6s linear infinite;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}.stars::before,.stars::after{content:"";position:absolute;width:inherit;height:inherit;box-shadow:inherit}.stars::before{transform:translateZ(-300px);-webkit-transform:translateZ(-300px);opacity:.6}.stars::after{-webkit-transform:translateZ(-600px);opacity:.4}@keyframes fly{from{transform:translateZ(0px);opacity:.6}to{transform:translateZ(300px);opacity:1}}@-webkit-keyframes fly{from{-webkit-transform:translateZ(0px);opacity:.6}to{-webkit-transform:translateZ(300px);opacity:1}}.scroll-down{font-family:'komu-a',sans-serif;position:absolute;bottom:4vh;line-height:2;left:0;right:0;text-align:center;color:white;text-transform:uppercase;opacity:0;transition:opacity 2s;animation:showScrollDown 4s 2s forwards;-webkit-animation:showScrollDown 4s 2s forwards}.scroll-down svg{height:1.5em;vertical-align:-0.4em}.arrow-up .scroll-down{opacity:0;animation:none;-webkit-animation:none}@keyframes showScrollDown{0%{opacity:0}20%{opacity:1}100%{opacity:.25}}@-webkit-keyframes showScrollDown{0%{opacity:0}20%{opacity:1}100%{opacity:.25}}.introduction{margin-top:98vh;background:white;box-shadow:0 0 2em 1em rgba(0,0,0,0.5)}.who-what-where{text-align:center}.who-what-where h1{margin:0}.who-what-where h2{color:#000;font-size:1.5em;margin-bottom:.1em}.who-what-where img{height:1em;vertical-align:-0.15em}.welcome{margin-top:3.5em;padding-top:3em;border-top:1px dashed #d8d8d8}.programme{padding:0}.programme-title{background-color:#fff;padding:3em}.programme-title h2{margin:0}.programme .day{max-width:100%;background-color:#fff}.programme .day-one,.programme .day-three{background-color:#eee}.programme .inner{max-width:40em;padding:3em;margin:0 auto;position:relative;padding-left:6em}.programme .date{width:4em;height:4em;background:#29abe2;color:#fff;position:absolute;top:50%;left:0;margin-top:-1.5em;text-align:center;line-height:1;border-radius:50%}.programme .date span{display:block;font-size:2em;padding-top:.1em}.programme h3{text-align:left}.amsterdam{background-image:url('/img/ams-04.jpg');background-position:left center;background-size:cover;min-height:50vh;max-width:100%;line-height:1}.amsterdam blockquote{font-family:'komu-a',sans-serif;font-size:3em;color:#fff;text-shadow:0 0 14px rgba(0,0,0,0.7);max-width:40em;margin:0 auto;position:absolute;left:0;right:0;bottom:70%;text-align:center;text-transform:uppercase}.speakers{background-color:#fff}.speakers ul{padding-bottom:2em}.speakers li{position:relative;display:block;float:left;width:50%;padding-bottom:3em}.speakers h2,.speakers h3,.speakers h4{clear:left;text-align:center}.speakers h4{color:#000;margin-bottom:1em}.speakers-subtitle{display:block;text-align:center;margin-bottom:2em}.speakers li:nth-child(2n+1){padding-right:1em;clear:left}.speakers li:nth-child(2n+0){padding-left:1em}.speakers li:nth-child(2n+1):last-child{float:none;margin:0 auto;padding:0}.speakers li img{width:80%;margin-left:10%;border-radius:50%;margin-bottom:1em}.tickets{background-color:#29abe2;color:#fff}.tickets h2{color:#fff}.tickets .button{background:#fff;color:#29abe2}.venue{padding:0;position:relative}.venue-map{background:#fff url(/img/map.jpg) left center no-repeat;background-size:cover;height:25em}.venue h2{position:absolute;top:1em;left:0;right:0;z-index:10;text-align:center;text-shadow:0 0 14px rgba(255,255,255,1)}.venue-float{background-color:#29abe2;color:#fff;position:absolute;right:3em;top:3em;bottom:3em;width:14em;padding:1em;text-align:center}.venue-float h3{color:inherit}.venue-float a{color:inherit;font-size:.75em}.venue-float img{max-width:100%}.venue-float p{line-height:1;margin:.5em 0}.code-of-conduct{background-color:#fff}.contact{background-color:#29abe2;color:#fff;text-align:center;z-index:2}.contact a,.contact h2{color:inherit}.contact article>div{width:50%;float:left}.contact article>div:first-child{padding-right:2em;border-right:1px dashed rgba(255,255,255,0.3)}.contact article>div:last-child{padding-left:2em}.contact input{width:80%;border:0;padding:.5em;border-radius:3px;background:#eee}.contact input:focus{background:#fff;outline:0}.contact button{background-color:#fff;color:#29abe2}.mailinglist-submit{display:none}.sponsors{background-color:#fff;margin-bottom:95vh;box-shadow:0 0 2em 1em rgba(0,0,0,0.5)}.sponsors p{text-align:center}.sponsors li{width:50%;float:left;text-align:center}.sponsors li h4{color:#000}.sponsors li:first-child:last-child{width:100%}.sponsors li img{display:block;width:80%;max-width:20em;margin:2em auto 1em auto}.sponsors li:nth-child(2n+1){clear:left}.sponsors #silver-sponsors li img{width:30%}.sponsors #bronze-sponsors li img{width:15%}.sponsor-rocketconf{padding-top:2em}.speaker-intro{margin-bottom:2em}.speaker-intro img{max-height:12em;border-radius:50%;float:left;margin-right:2em}.speaker-intro h2{text-align:left;margin:1.25em 0 0 0}.speaker-intro h3{text-align:left;color:#000}.standalone-page{background-color:#fff;margin-top:5em;margin-bottom:5em}.standalone-page .who-what-where{padding-bottom:1em;margin-bottom:3em;border-bottom:1px dashed #d8d8d8}.standalone-page .who-what-where a{text-decoration:none}@media(max-width:60em){.venue h2{text-align:left;padding-left:1em}.programme .date{left:2em}.programme .inner{padding-left:8em}}@media(max-width:50em){h1{font-size:3em}h2{font-size:2em}h3{font-size:1.5em}.speakers li:nth-child(n){width:100%;float:none;padding:0 0 3em 0}.speakers li img{width:60%;margin-left:20%}.contact article>div:first-child,.contact article>div:last-child{width:100%;float:none;border:0;padding:0}.contact article>div:first-child{padding-bottom:3em}.venue-map{margin-bottom:10em}.venue-float{bottom:-10em;height:10em;left:0;right:0;top:auto;width:auto}.venue h2{text-align:center;padding:0}.venue-float{text-align:center}.venue-float img{max-height:6em;width:auto;display:inline-block;vertical-align:top}.venue p{display:inline-block;margin:0;text-align:left;padding-left:1em}}@media(max-width:32em){body{font-size:18px}section{padding:2em 1em}.who-what-where h1{font-size:3em;line-height:1}.who-what-where h2{margin:.5em 0}.who-what-where img{height:3em;display:block;margin:0 auto .5em auto}.amsterdam blockquote{bottom:1.25em;left:.2em;right:.2em}.programme h3{text-align:center;margin-top:.5em}.programme .inner{padding:2em 1em 1em 1em}.programme .date{position:relative;margin:0 auto;left:0}.mailinglist-submit{display:block;margin-top:.5em}}@media(max-width:25em){.venue-map{margin-bottom:16em}.venue-float{bottom:-16em;height:16em}.venue-float img{display:block;margin:0 auto}.venue-float p{text-align:center;padding:1em 0 0 0}}</style>
+</head>
+<body>
+
+
+  <main>
+
+    <section class="splash">
+      <div class="stars"></div>
+      <img src="/img/rocketconf-logo.svg" class="logo" alt="RockerConf Amsterdam 2015 spaceship logo">
+      <div class="scroll-down">
+        Scroll
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="-210 -28.5 857.1 857.1" enable-background="new -210 -28.5 857.1 857.1" xml:space="preserve">
+        <path fill="#ffffff" d="M243.7,624.9L497,371.6c7.1-7.1,10.6-15.4,10.6-25.1s-3.5-18-10.6-25.1l-56.9-56.9c-7.1-7.1-15.4-10.6-25.1-10.6
+          c-9.7,0-18,3.5-25.1,10.6L218.5,435.7L47.2,264.4c-7.1-7.1-15.4-10.6-25.1-10.6s-18,3.5-25.1,10.6l-56.9,56.9
+          c-7.1,7.1-10.6,15.4-10.6,25.1s3.5,18,10.6,25.1l253.3,253.3c7.1,7.1,15.4,10.6,25.1,10.6S236.6,632,243.7,624.9L243.7,624.9z
+           M647.1,400c0,77.7-19.2,149.5-57.5,215.1s-90.3,117.6-156,156c-65.7,38.3-137.4,57.5-215.1,57.5S69.1,809.4,3.4,771.1
+          c-65.7-38.3-117.6-90.3-156-156S-210,477.8-210,400s19.2-149.5,57.5-215.1S-62.2,67.3,3.4,29s137.4-57.5,215.1-57.5
+          S368-9.4,433.7,29s117.6,90.3,156,156S647.1,322.3,647.1,400L647.1,400z"/>
+        </svg>
+        down
+      </div>
+    </section>
+
+    <section class="introduction">
+      <article>
+
+        <div class="who-what-where">
+          <h1><img src="/img/rocketconf-icon.svg" alt="RocketConf spaceship logo"> RocketConf 2015</h1>
+          <h2>A three-day single track conference for modern web developers</h2>
+          <span>11, 12 and 13 November, 2015 &mdash; Amsterdam, The Netherlands</span>
+        </div>
+
+        <div class="welcome">
+          <h2>Awesome! You’re here!</h2>
+          <p>
+              This November we will bring you <em>RocketConf</em>, a three-day
+              developer conference for the modern web developer and dev ops who loves writing
+              beautiful code and creating magnificent things that matter.
+          </p>
+
+          <p>
+              RocketConf does not focus on any particual technology or tool. We believe that
+              you can learn more from people with a different perspective. Technical topics can
+              range from Ruby on Rails to Ember.js to Elixir to Docker and everything in between.
+          </p>
+
+          <p>
+              To learn something well, you should get hands-on experience. On the 11th November
+              we'll host workshops where you can get together with others and get a real
+              learning experience by <em>doing</em> something fun.
+              The 12th and 13th November are reserved for the conference talks.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section class="amsterdam">
+      <blockquote>Talking tech in beautiful Amsterdam</blockquote>
+    </section>
+
+    <section class="speakers" id="speakers">
+      <article class="clearfix">
+        <h2>Speakers</h2>
+        <p class="speakers-subtitle">More speakers will be announced in the coming months!</p>
+        <ul>
+          <li>
+            <img src="/img/speakers/speaker-andre-kuipers.jpg" alt="Profile picture of Dr. André Kuipers">
+            <h3>Dr. André Kuipers</h3>
+            <h4>Astronaut & Ambassador of Earth</h4>
+            <p>André Kuipers is the first Dutchman with two space missions to his name. He offers a unique look behind the scenes of international human spaceflight.</p>
+          </li>
+          <li>
+            <img src="/img/speakers/speaker-corey-haines.jpg" alt="Profile picture of Corey Haines">
+            <h3>Corey Haines</h3>
+            <h4>Software Journeyman</h4>
+            <p>Corey Haines is an author, speaker, teacher and all around groovy guy. While his true contribution to the world is an undying love of cats, he also co-created and led the evolution of the Coderetreat workshop.</p>
+          </li>
+          <li>
+            <img src="/img/speakers/speaker-kevlin-henney.jpg" alt="Profile picture of Kevlin Henney">
+            <h3>Kevlin Henney</h3>
+            <h4>Consultant, speaker, writer and trainer</h4>
+            <p>Kevlin is an independent consultant, speaker, writer and trainer. His development interests are in patterns, programming, practice and process. He has been a columnist for various magazines and web sites, and been involved in more committees than can be considered healthy.</p>
+          </li>
+          <li>
+            <img src="/img/speakers/speaker-francesc-campoy.jpg" alt="Profile picture of Francesc Campoy">
+            <h3>Francesc Campoy</h3>
+            <h4>Go Developer Programs Engineer</h4>
+            <p>Francesc Campoy joined the Go team in 2012 as Developer Programs Engineer. Since then, he has written some considerable didactic resources and traveled the world attending conferences and organizing live courses.</p>
+          </li>
+          <li>
+            <img src="/img/speakers/speaker-jessie-frazelle.jpg" alt="Profile picture of Jessie Frazelle">
+            <h3>Jessie Frazelle</h3>
+            <h4>Core Docker maintainer</h4>
+            <p>Jessie Frazelle works on the Core Team at Docker, maintaining the docker/docker project. She enjoys hacking everything possible into containers and scaling out the Docker CI and tools. She loves all things Linux.</p>
+          </li>
+          <li>
+            <img src="/img/speakers/speaker-mark-bates.jpg" alt="Profile picture of Mark Bates">
+            <h3>Mark Bates</h3>
+            <h4>Software Developer, Author, Father, Entrepreneur</h4>
+            <p>Mark Bates is the founder and chief architect of the Boston, MA based consulting company, Meta42 Labs. Mark spends his days focusing on new application development and consulting for his clients. At night he writes books, raises kids, and occasionally he forms a band and "tries to make it".</p>
+          </li>
+        </ul>
+
+        <h2 id="call-for-proposals">Call for proposals</h2>
+        <p>We like to think about the modern web in the broadest possible way. How it works today, how it affects lives and how it shapes the future. And we'd love to hear your ideas on it.</p>
+        <p>RocketConf offers you a stage to share your story with your peers. This is a great opportunity to share and give back to the community. Please submit your proposal for a <em>talk</em> or <em>workshop</em> before <em>31 July 2015</em>. Do it today!</p>
+        <p class="center-text">
+          <a href="http://goo.gl/forms/onQ7gVWIhQ" class="button">Submit a proposal</a>
+        </p>
+        <p>In the light of our <a href="/code-of-conduct">Code of Conduct</a> we want to give everyone a fair chance of speaking at RocketConf. Submissions will be anonymized before being handed over to the programme team, who will make a selection based on the <em>content</em> of your proposal.</p>
+      </article>
+    </section>
+
+    <section class="tickets" id="tickets">
+      <article>
+        <h2>Tickets</h2>
+
+        <p>For the <em>early birds</em> we have a limited supply of tickets available at a discounted
+        price. Early bird tickets will be available as long as the supply lasts <em>until July 31.</em></p>
+
+        <p class="center-text">
+          <a href="https://ti.to/rocketconf-amsterdam/2015" class="button">Get your ticket now!</a>
+        </p>
+
+        <p>There are two types of tickets available to RocketConf 2015. The <em>Workshops + Conference</em>
+        tickets will give you access to the workshops on 11 November <em>and</em> the two conference days.
+        The <em>Conference</em> tickets will give you access to both conference days only.
+        </p>
+      </article>
+    </section>
+
+    <section class="venue" id="venue">
+      <h2>Venue</h2>
+      <div class="venue-map"></div>
+      <div class="venue-float">
+        <h3>Pakhuis de Zwijger</h3>
+        <img src="/img/pakhuis-de-zwijger.jpg" alt="Pakhuis de Zwijger, Amsterdamn">
+        <p>
+          Piet Heinkade 179
+          <br>
+          1019HC Amsterdam
+          <br>
+          The Netherlands
+          <br>
+          <a href="https://www.google.nl/maps/place/Pakhuis+De+Zwijger/@52.3730262,4.9049152,14z/data=!4m2!3m1!1s0x47c609a80e2c8a2f:0x2d9e404fc8f71f8d" target="_blank">View on maps &raquo;</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="programme" id="programme">
+      <div class="programme-title">
+        <h2>Programme</h2>
+      </div>
+      <article class="day day-one">
+        <div class="inner">
+          <div class="date"><span>11</span> nov</div>
+          <h3>Workshops</h3>
+          <p>A variety of workshop will be available to get some hands-on experience.</p>
+        </div>
+      </article>
+      <article class="day day-two">
+        <div class="inner">
+          <div class="date"><span>12</span> nov</div>
+          <h3>Conference</h3>
+          <p>We are busy right now to confirm the speakers.</p>
+        </div>
+      </article>
+      <article class="day day-three">
+        <div class="inner">
+          <div class="date"><span>13</span> nov</div>
+          <h3>Conference</h3>
+          <p>We are busy right now to confirm the speakers. But the call for proposals is open, so why
+          not <a href="#call-for-proposals">submit your talk?</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="code-of-conduct" id="code-of-conduct">
+      <article>
+        <h2>Code of Conduct</h2>
+        <p>
+             RocketConf is an inclusive conference. To us this is common sense, but we feel the need to explicitly tell
+             our speakers, sponsors and participants where we stand on this topic in our
+             <a href="/code-of-conduct">Code of Conduct</a>. Read it.
+        </p>
+        <p>
+            We know you are awesome. See you at RocketConf!
+        </p>
+      </article>
+    </section>
+
+    <section class="contact" id="contact">
+      <article class="clearfix">
+        <div>
+          <h2>Stay updated</h2>
+          <p>
+            Want us to keep you up to date on new speakers, ticket sales and other important
+            things? Follow <a href="https://twitter.com/RocketConf">@RocketConf</a> or subscribe
+            to our mailinglist:
+
+            <form action="http://newsletter.kabisa.nl/t/r/s/jjuisk/" method="post" id="subForm" class="cf">
+                <input id="fieldEmail" name="cm-jjuisk-jjuisk" type="email" required placeholder="Subscribe for updates..." />
+                <button class="button mailinglist-submit" type="submit">Subscribe</button>
+            </form>
+          </p>
+        </div>
+        <div>
+          <h2>Contact</h2>
+          <p>
+            Got questions?
+            <br><br>
+            Send us an email:<br>
+            <a href="mailto:launchcontrol@rocketconf.eu">launchcontrol@rocketconf.eu</a>
+            <br><br>
+            Tweet to us:<br>
+          <a href="http://twitter.com/RocketConf">@RocketConf</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="sponsors" id="sponsors">
+      <article>
+        <h2>Sponsors</h2>
+        <p>RocketConf would not be possible without the support of these <em>awesome</em> sponsors:</p>
+        <ul class="clearfix" id="premium-sponsors">
+          <li>
+            <a href="http://kabisa.nl"><img src="/img/sponsors/kabisa.png" alt="Kabisa logo"></a>
+            <h4>Platinum sponsor</h4>
+          </li>
+        </ul>
+        <ul class="clearfix" id="silver-sponsors">
+          <li>
+            <a href="http://www.digitalocean.com"><img src="/img/sponsors/digitalocean.png" alt="Digital Ocean"></a>
+            <h4>Silver sponsor</h4>
+          </li>
+        </ul>
+        <ul class="clearfix" id="bronze-sponsors">
+          <li>
+            <a href="http://firmhouse.com"><img src="/img/sponsors/firmhouse.jpg" alt="Firmhouse"></a>
+            <h4>Bronze sponsor</h4>
+          </li>
+        </ul>
+        <p class="sponsor-rocketconf">Want to sponsor RocketConf? Cool! <a href="sponsorship.pdf" target="_blank">Read the folder</a> or <a href="mailto:launchcontrol@rocketconf.eu?subject=Sponsorship">get in touch</a>.</p>
+      </article>
+    </section>
+
+  </main>
+
+  <script>
+    function debounce(func, wait, immediate) {
+      var timeout;
+      return function() {
+        var context = this, args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    };
+    var arrowize = debounce(function() {
+      var d = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) * 2,
+          w = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+      if(w > d) {
+        document.body.classList.add("arrow-up");
+      } else {
+        document.body.classList.remove("arrow-up");
+      }
+    }, 10);
+
+    window.addEventListener('scroll', arrowize);
+  </script>
+
+  <script>
+    (function(d) {
+      var config = {
+        kitId: 'vxq2mtr',
+        scriptTimeout: 3000
+      },
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='//use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-62111537-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
+</html>
