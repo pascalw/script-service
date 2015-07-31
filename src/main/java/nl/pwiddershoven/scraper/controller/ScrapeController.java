@@ -3,6 +3,8 @@ package nl.pwiddershoven.scraper.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,15 +18,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/")
 public class ScrapeController {
     private final Logger logger = Logger.getLogger(ScrapeController.class);
 
     static class ScrapeRequest {
+        @NotNull
         public String pageUrl;
+        @NotNull
         public String script;
+        @NotNull
+        public String contentType;
     }
 
     @Autowired
@@ -35,14 +40,14 @@ public class ScrapeController {
 
     @POST
     @Path("/doScrape")
-    public Object scrape(ScrapeRequest scrapeRequest) {
+    public Response scrape(ScrapeRequest scrapeRequest) {
         ScrapeConfiguration scrapeConfiguration = buildScrapeConfiguration(scrapeRequest);
         return doScrape(scrapeConfiguration);
     }
 
     @POST
     @Path("/scrape")
-    public Response createConfiguration(ScrapeRequest scrapeRequest) {
+    public Response createConfiguration(@Valid ScrapeRequest scrapeRequest) {
         String id = scrapeConfigurationRepository.save(buildScrapeConfiguration(scrapeRequest));
         return Response.created(getLocation(id)).build();
     }
@@ -54,7 +59,7 @@ public class ScrapeController {
     }
 
     private ScrapeConfiguration buildScrapeConfiguration(ScrapeRequest scrapeRequest) {
-        return new ScrapeConfiguration(scrapeRequest.pageUrl, scrapeRequest.script);
+        return new ScrapeConfiguration(scrapeRequest.pageUrl, scrapeRequest.script, scrapeRequest.contentType);
     }
 
     @GET
@@ -64,13 +69,17 @@ public class ScrapeController {
         return doScrape(scrapeConfiguration);
     }
 
-    private Object doScrape(ScrapeConfiguration scrapeConfiguration) {
+    private Response doScrape(ScrapeConfiguration scrapeConfiguration) {
         long start = System.currentTimeMillis();
         Object result = scraper.scrape(scrapeConfiguration);
         long end = System.currentTimeMillis();
 
         logger.info("Processing took " + (end - start));
-        return result;
+
+        return Response.ok()
+                .type(scrapeConfiguration.contentType)
+                .entity(result)
+                .build();
     }
 
     private URI getLocation(String id) {

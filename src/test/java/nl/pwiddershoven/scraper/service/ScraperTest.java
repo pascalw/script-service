@@ -37,7 +37,7 @@ public class ScraperTest {
                         "  return result;\n" +
                         "}";
 
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
+        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script, "application/json");
         System.out.println(scraper.scrape(scrapeConfiguration));
     }
 
@@ -59,7 +59,7 @@ public class ScraperTest {
                         "    return feed;\n" +
                         "}";
 
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
+        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script, "text/xml");
         System.out.println(scraper.scrape(scrapeConfiguration));
     }
 
