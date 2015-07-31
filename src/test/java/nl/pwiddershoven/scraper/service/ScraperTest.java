@@ -24,15 +24,7 @@ public class ScraperTest {
     }
 
     @Test
-    public void scrapes() {
-        String script = "function(page) { return page.title(); }";
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
-
-        System.out.println(scraper.scrape(scrapeConfiguration));
-    }
-
-    @Test
-    public void scrapes2() {
+    public void scrape_generatesJson() {
         String script = "function(page) {\n" +
                         "  var result = { speakers: [] };\n" +
                         "  \n" +
@@ -43,6 +35,28 @@ public class ScraperTest {
                         "  });\n" +
                         "  \n" +
                         "  return result;\n" +
+                        "}";
+
+        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
+        System.out.println(scraper.scrape(scrapeConfiguration));
+    }
+
+    @Test
+    public void scrape_generatesFeed() {
+        String script = "function(page) {\n" +
+                        "    var feed = newFeed()\n" +
+                        "      .setTitle(\"My feed\")\n" +
+                        "      .setDescription(\"My feed\")\n" +
+                        "      .setLink(\"http://google.com\");\n" +
+                        "\n" +
+                        "    var entry = feed.newEntry()\n" +
+                        "      .setTitle(\"Item 1\")\n" +
+                        "      .setLink(\"http://google.com\")\n" +
+                        "      .setPublishedDate(new java.util.Date())\n" +
+                        "      .setDescription(\"ohai!\");\n" +
+                        "\n" +
+                        "    feed.addEntry(entry);\n" +
+                        "    return feed;\n" +
                         "}";
 
         ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
