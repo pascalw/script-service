@@ -47,6 +47,12 @@ public class ScrapeController {
         return Response.created(getLocation(id)).build();
     }
 
+    @PUT
+    @Path("/scrape/{id}")
+    public void updateConfiguration(@PathParam("id") String id, ScrapeRequest scrapeRequest) {
+        scrapeConfigurationRepository.update(id, buildScrapeConfiguration(scrapeRequest));
+    }
+
     private ScrapeConfiguration buildScrapeConfiguration(ScrapeRequest scrapeRequest) {
         return new ScrapeConfiguration(scrapeRequest.pageUrl, scrapeRequest.script);
     }

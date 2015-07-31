@@ -7,4 +7,6 @@ public interface ScrapeConfigurationRepository {
     public ScrapeConfiguration find(String id);
 
     String save(ScrapeConfiguration scrapeConfiguration);
+
+    void update(String id, ScrapeConfiguration scrapeConfiguration);
 }

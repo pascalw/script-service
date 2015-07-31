@@ -25,6 +25,11 @@ public class InMemoryScrapeConfigurationRepository implements ScrapeConfiguratio
         return id;
     }
 
+    @Override
+    public void update(String id, ScrapeConfiguration scrapeConfiguration) {
+        storage.put(id, scrapeConfiguration);
+    }
+
     private synchronized long nextId() {
         return nextId++;
     }
