@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,9 +33,19 @@ public class ScraperTest {
 
     @Test
     public void scrapes2() {
-        String script = "function(page) { return page.select(\"#speakers ul li h3\").stream().map(function(s){return s.text()}).collect(java.util.stream.Collectors.toList()); }";
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
+        String script = "function(page) {\n" +
+                        "  var result = { speakers: [] };\n" +
+                        "  \n" +
+                        "  page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
+                        "    var name = li.select(\"h3\").text();\n" +
+                        "    var bio = li.select(\"h4\").text();\n" +
+                        "    result.speakers.push({ name: name, bio: bio });\n" +
+                        "  });\n" +
+                        "  \n" +
+                        "  return result;\n" +
+                        "}";
 
+        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script);
         System.out.println(scraper.scrape(scrapeConfiguration));
     }
 

@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import nl.pwiddershoven.scraper.service.ScrapeConfiguration;
 import nl.pwiddershoven.scraper.service.Scraper;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/")
 public class ScrapeController {
+    private final Logger logger = Logger.getLogger(ScrapeController.class);
 
     static class ScrapeRequest {
         public String pageUrl;
@@ -27,6 +29,13 @@ public class ScrapeController {
     @Path("/scrape")
     public Object scrape(ScrapeRequest scrapeRequest) {
         ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration(scrapeRequest.pageUrl, scrapeRequest.script);
-        return scraper.scrape(scrapeConfiguration);
+
+        long start = System.currentTimeMillis();
+        Object result = scraper.scrape(scrapeConfiguration);
+        long end = System.currentTimeMillis();
+
+        logger.info("Processing took " + (end - start));
+
+        return result;
     }
 }

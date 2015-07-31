@@ -5,12 +5,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PageFetcher {
+    private final Logger logger = Logger.getLogger(PageFetcher.class);
 
     public String fetch(String urlString) {
+        long start = System.currentTimeMillis();
         try {
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection();
@@ -27,6 +30,9 @@ public class PageFetcher {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            long end = System.currentTimeMillis();
+            logger.info("Fetching took " + (end - start));
         }
     }
 }

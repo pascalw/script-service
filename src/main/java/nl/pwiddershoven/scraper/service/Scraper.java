@@ -1,6 +1,7 @@
 package nl.pwiddershoven.scraper.service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.script.*;
 
@@ -39,7 +40,7 @@ public class Scraper {
             Object result = jsEngine.eval("process(__doc);", ctx);
 
             if (result instanceof ScriptObjectMirror)
-                result = new HashMap<>((ScriptObjectMirror) result);
+                result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
 
             return result;
         } catch (ScriptException e) {
