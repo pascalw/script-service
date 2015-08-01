@@ -47,6 +47,6 @@ public class CorsFilter extends OncePerRequestFilter {
     }
 
     private List<String> getAllowedHeaders() {
-        return ImmutableList.of("Authorization");
+        return ImmutableList.of("Authorization", "Content-Type");
     }
 }
