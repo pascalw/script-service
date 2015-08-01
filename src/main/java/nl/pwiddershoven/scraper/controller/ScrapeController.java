@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 public class ScrapeController {
     private final Logger logger = Logger.getLogger(ScrapeController.class);
 
-    static class ScrapeRequest {
+    static class ScrapeConfigurationDTO {
         @NotNull
         public String pageUrl;
         @NotNull
@@ -40,26 +40,39 @@ public class ScrapeController {
 
     @POST
     @Path("/doScrape")
-    public Response scrape(ScrapeRequest scrapeRequest) {
-        ScrapeConfiguration scrapeConfiguration = buildScrapeConfiguration(scrapeRequest);
+    public Response scrape(ScrapeConfigurationDTO scrapeConfigurationDTO) {
+        ScrapeConfiguration scrapeConfiguration = buildScrapeConfiguration(scrapeConfigurationDTO);
         return doScrape(scrapeConfiguration);
     }
 
     @POST
-    @Path("/scrape")
-    public Response createConfiguration(@Valid ScrapeRequest scrapeRequest) {
-        String id = scrapeConfigurationRepository.save(buildScrapeConfiguration(scrapeRequest));
+    @Path("/config")
+    public Response createConfiguration(@Valid ScrapeConfigurationDTO scrapeConfigurationDTO) {
+        String id = scrapeConfigurationRepository.save(buildScrapeConfiguration(scrapeConfigurationDTO));
         return Response.created(getLocation(id)).build();
     }
 
     @PUT
-    @Path("/scrape/{id}")
-    public void updateConfiguration(@PathParam("id") String id, ScrapeRequest scrapeRequest) {
-        scrapeConfigurationRepository.update(id, buildScrapeConfiguration(scrapeRequest));
+    @Path("/config/{id}")
+    public void updateConfiguration(@PathParam("id") String id, ScrapeConfigurationDTO scrapeConfigurationDTO) {
+        scrapeConfigurationRepository.update(id, buildScrapeConfiguration(scrapeConfigurationDTO));
     }
 
-    private ScrapeConfiguration buildScrapeConfiguration(ScrapeRequest scrapeRequest) {
-        return new ScrapeConfiguration(scrapeRequest.pageUrl, scrapeRequest.script, scrapeRequest.contentType);
+    private ScrapeConfiguration buildScrapeConfiguration(ScrapeConfigurationDTO scrapeConfigurationDTO) {
+        return new ScrapeConfiguration(scrapeConfigurationDTO.pageUrl, scrapeConfigurationDTO.script, scrapeConfigurationDTO.contentType);
+    }
+
+    @GET
+    @Path("/config/{id}")
+    public ScrapeConfigurationDTO getScrapeConfig(@PathParam("id") String id) {
+        ScrapeConfiguration scrapeConfiguration = scrapeConfigurationRepository.find(id);
+
+        ScrapeConfigurationDTO scrapeConfigurationDTO = new ScrapeConfigurationDTO();
+        scrapeConfigurationDTO.script = scrapeConfiguration.processingScript;
+        scrapeConfigurationDTO.contentType = scrapeConfiguration.contentType;
+        scrapeConfigurationDTO.pageUrl = scrapeConfiguration.pageUrl;
+
+        return scrapeConfigurationDTO;
     }
 
     @GET
@@ -84,7 +97,7 @@ public class ScrapeController {
 
     private URI getLocation(String id) {
         try {
-            return new URI("/scrape/" + id);
+            return new URI("/config/" + id);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
