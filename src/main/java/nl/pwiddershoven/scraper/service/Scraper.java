@@ -50,8 +50,8 @@ public class Scraper {
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
 
-            if(result instanceof FeedBuilder)
-                result = ((FeedBuilder)result).build();
+            if (result instanceof FeedBuilder)
+                result = ((FeedBuilder) result).build();
 
             return result;
         } catch (ScriptException e) {
