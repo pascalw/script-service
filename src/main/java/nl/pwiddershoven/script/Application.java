@@ -1,7 +1,9 @@
 package nl.pwiddershoven.script;
 
-import org.springframework.boot.SpringApplication;
+import nl.pwiddershoven.script.config.CloudProfileInitializer;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String args[]) {
-        Class<?>[] configurations = { Application.class };
-        SpringApplication.run(configurations, args);
+        new SpringApplicationBuilder(Application.class)
+                .initializers(new CloudProfileInitializer())
+                .run(args);
     }
 }
