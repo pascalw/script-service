@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Scraper {
     private static ScriptEngine jsEngine = new ScriptEngineManager().getEngineByName("nashorn");
-    private static final String SCRIPT_WRAPPER = "process = ";
+    private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private PageFetcher pageFetcher;
 
@@ -37,8 +37,7 @@ public class Scraper {
             ScriptContext ctx = new SimpleScriptContext();
             ctx.setBindings(jsEngine.getBindings(ScriptContext.ENGINE_SCOPE), ScriptContext.ENGINE_SCOPE);
 
-            jsEngine.eval(SCRIPT_WRAPPER + scrapeConfiguration.processingScript, ctx);
-            Object result = jsEngine.eval("process();", ctx);
+            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scrapeConfiguration.processingScript), ctx);
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
