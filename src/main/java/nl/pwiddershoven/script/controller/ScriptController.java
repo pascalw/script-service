@@ -47,14 +47,14 @@ public class ScriptController {
     }
 
     @POST
-    @Path("/config")
+    @Path("/configs")
     public Response createConfiguration(@Valid ScriptConfigurationDTO scriptConfigurationDTO) {
         String id = scriptConfigurationRepository.save(buildScriptConfiguration(scriptConfigurationDTO));
         return Response.created(getLocation(id)).build();
     }
 
     @PUT
-    @Path("/config/{id}")
+    @Path("/configs/{id}")
     public void updateConfiguration(@PathParam("id") String id, ScriptConfigurationDTO scriptConfigurationDTO) {
         scriptConfigurationRepository.update(id, buildScriptConfiguration(scriptConfigurationDTO));
     }
@@ -77,7 +77,7 @@ public class ScriptController {
     }
 
     @GET
-    @Path("/config/{id}")
+    @Path("/configs/{id}")
     public ScriptConfigurationDTO getScriptConfiguration(@PathParam("id") String id) {
         ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
         return buildDTO(scriptConfiguration);
