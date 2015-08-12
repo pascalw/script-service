@@ -2,6 +2,8 @@ package nl.pwiddershoven.script.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -62,15 +64,23 @@ public class ScriptController {
     }
 
     @GET
+    @Path("/configs")
+    public List<ScriptConfigurationDTO> getScriptConfigurations(
+            @PathParam("id") String id,
+            @DefaultValue("1") @QueryParam("page") int page,
+            @DefaultValue("10") @QueryParam("perPage") int perPage) {
+        int offset = (page - 1) * perPage;
+        List<ScriptConfiguration> scriptConfigurations = scriptConfigurationRepository.findAll(offset, perPage);
+
+        return scriptConfigurations.stream()
+                .map(this::buildDTO).collect(Collectors.toList());
+    }
+
+    @GET
     @Path("/config/{id}")
     public ScriptConfigurationDTO getScriptConfiguration(@PathParam("id") String id) {
         ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
-
-        ScriptConfigurationDTO scriptConfigurationDTO = new ScriptConfigurationDTO();
-        scriptConfigurationDTO.script = scriptConfiguration.processingScript;
-        scriptConfigurationDTO.contentType = scriptConfiguration.contentType;
-
-        return scriptConfigurationDTO;
+        return buildDTO(scriptConfiguration);
     }
 
     @GET
@@ -79,6 +89,15 @@ public class ScriptController {
     public Object getConfiguration(@PathParam("id") String id) {
         ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
         return doExecute(scriptConfiguration);
+    }
+
+    private ScriptConfigurationDTO buildDTO(ScriptConfiguration scriptConfiguration) {
+        ScriptConfigurationDTO scriptConfigurationDTO = new ScriptConfigurationDTO();
+
+        scriptConfigurationDTO.script = scriptConfiguration.processingScript;
+        scriptConfigurationDTO.contentType = scriptConfiguration.contentType;
+
+        return scriptConfigurationDTO;
     }
 
     private Response doExecute(ScriptConfiguration scriptConfiguration) {

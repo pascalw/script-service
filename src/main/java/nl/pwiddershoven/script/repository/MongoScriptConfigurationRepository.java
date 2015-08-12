@@ -1,5 +1,8 @@
 package nl.pwiddershoven.script.repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import nl.pwiddershoven.script.service.ScriptConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +31,17 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     }
 
     @Override
+    public List<ScriptConfiguration> findAll(int offset, int perPage) {
+        Query query = new Query();
+        query.skip(offset);
+        query.limit(perPage);
+
+        return convert(mongoTemplate.find(query, StorageObject.class, COLLECTION_NAME));
+    }
+
+    @Override
     public ScriptConfiguration find(String id) {
-        StorageObject storageObject = mongoTemplate.findById(id, StorageObject.class, COLLECTION_NAME);
-        return new ScriptConfiguration(storageObject.script, storageObject.contentType);
+        return convert(mongoTemplate.findById(id, StorageObject.class, COLLECTION_NAME));
     }
 
     @Override
@@ -46,6 +57,14 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     @Override
     public void update(String id, ScriptConfiguration scriptConfiguration) {
         mongoTemplate.upsert(new Query(Criteria.where("_id").is(id)), createUpdate(id, scriptConfiguration), COLLECTION_NAME);
+    }
+
+    private List<ScriptConfiguration> convert(List<StorageObject> storageObjects) {
+        return storageObjects.stream().map(this::convert).collect(Collectors.toList());
+    }
+
+    private ScriptConfiguration convert(StorageObject storageObject) {
+        return new ScriptConfiguration(storageObject.script, storageObject.contentType);
     }
 
     private Update createUpdate(String id, ScriptConfiguration scriptConfiguration) {
