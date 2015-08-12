@@ -2,6 +2,7 @@ package nl.pwiddershoven.script.service;
 
 import javax.script.*;
 
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import org.jsoup.Jsoup;
@@ -11,12 +12,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ScriptExecutor {
-    private static ScriptEngine jsEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
+    private ScriptEngine jsEngine;
     private PageFetcher pageFetcher;
 
     public ScriptExecutor() {
+        NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
+        jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
+
         try {
             Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
             bindings.put("__ctx", new JsContext());
