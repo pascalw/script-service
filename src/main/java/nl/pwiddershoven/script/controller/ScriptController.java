@@ -27,8 +27,11 @@ public class ScriptController {
     private final Logger logger = Logger.getLogger(ScriptController.class);
 
     static class ScriptConfigurationDTO {
+        public String id;
+
         @NotNull
         public String script;
+
         @NotNull
         public String contentType;
     }
@@ -94,6 +97,7 @@ public class ScriptController {
     private ScriptConfigurationDTO buildDTO(ScriptConfiguration scriptConfiguration) {
         ScriptConfigurationDTO scriptConfigurationDTO = new ScriptConfigurationDTO();
 
+        scriptConfigurationDTO.id = scriptConfiguration.id;
         scriptConfigurationDTO.script = scriptConfiguration.processingScript;
         scriptConfigurationDTO.contentType = scriptConfiguration.contentType;
 

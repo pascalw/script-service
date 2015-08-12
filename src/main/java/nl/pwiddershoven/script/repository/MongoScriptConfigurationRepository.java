@@ -64,7 +64,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     }
 
     private ScriptConfiguration convert(StorageObject storageObject) {
-        return new ScriptConfiguration(storageObject.script, storageObject.contentType);
+        return new ScriptConfiguration(storageObject.id, storageObject.script, storageObject.contentType);
     }
 
     private Update createUpdate(String id, ScriptConfiguration scriptConfiguration) {
