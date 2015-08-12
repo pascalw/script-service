@@ -1,4 +1,4 @@
-package nl.pwiddershoven.scraper.service;
+package nl.pwiddershoven.script.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
@@ -16,19 +16,19 @@ import org.springframework.util.StreamUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class ScraperTest {
-    private Scraper scraper = new Scraper();
+public class ScriptExecutorTest {
+    private ScriptExecutor scriptExecutor = new ScriptExecutor();
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
 
     @Before
     public void setUp() {
-        scraper.setPageFetcher(mockPageFetcher);
+        scriptExecutor.setPageFetcher(mockPageFetcher);
 
         when(mockPageFetcher.fetch(anyString())).thenReturn(resourceContent("index.html"));
     }
 
     @Test
-    public void scrape_generatesJson() {
+    public void script_generatesJson() {
         String script = "var page = fetchDocument('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +
@@ -40,8 +40,8 @@ public class ScraperTest {
                         "  \n" +
                         "return result;";
 
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration(script, "application/json");
-        Map<String, Object> result = scrape(scrapeConfiguration);
+        ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "application/json");
+        Map<String, Object> result = execute(scriptConfiguration);
 
         assertEquals(ImmutableMap.of("speakers", (Object) ImmutableList.of(
                 ImmutableMap.of("name", "Dr. André Kuipers", "bio", "Astronaut & Ambassador of Earth"),
@@ -56,12 +56,12 @@ public class ScraperTest {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, Object> scrape(ScrapeConfiguration scrapeConfiguration) {
-        return (Map<String, Object>) scraper.scrape(scrapeConfiguration);
+    private Map<String, Object> execute(ScriptConfiguration scriptConfiguration) {
+        return (Map<String, Object>) scriptExecutor.execute(scriptConfiguration);
     }
 
     @Test
-    public void scrape_generatesFeed() {
+    public void script_generatesFeed() {
         String script = "var feed = newFeed()\n" +
                         "  .setTitle(\"My feed\")\n" +
                         "  .setDescription(\"My feed\")\n" +
@@ -76,8 +76,8 @@ public class ScraperTest {
                         "feed.addEntry(entry);\n" +
                         "return feed;";
 
-        ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration(script, "text/xml");
-        System.out.println(scraper.scrape(scrapeConfiguration));
+        ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "text/xml");
+        System.out.println(scriptExecutor.execute(scriptConfiguration));
     }
 
     private String resourceContent(String resource) {

@@ -1,6 +1,6 @@
-package nl.pwiddershoven.scraper.config;
+package nl.pwiddershoven.script.config;
 
-import nl.pwiddershoven.scraper.controller.ScrapeController;
+import nl.pwiddershoven.script.controller.ScriptController;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -18,6 +18,6 @@ public class JerseyConfig extends ResourceConfig {
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
         property(ServletProperties.FILTER_FORWARD_ON_404, true);
 
-        register(ScrapeController.class);
+        register(ScriptController.class);
     }
 }

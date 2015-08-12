@@ -79,7 +79,7 @@
           type: 'POST',
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
-          url: '/doScrape',
+          url: '/execute',
           data: JSON.stringify(json),
           dataType: 'text',
           success: function(data) {

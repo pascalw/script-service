@@ -1,4 +1,4 @@
-package nl.pwiddershoven.scraper.config;
+package nl.pwiddershoven.script.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.RetentionPolicy;

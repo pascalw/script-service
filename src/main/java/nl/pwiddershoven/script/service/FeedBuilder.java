@@ -1,4 +1,4 @@
-package nl.pwiddershoven.scraper.service;
+package nl.pwiddershoven.script.service;
 
 import java.io.IOException;
 import java.io.StringWriter;

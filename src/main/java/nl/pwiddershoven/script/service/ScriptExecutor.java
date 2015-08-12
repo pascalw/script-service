@@ -1,4 +1,4 @@
-package nl.pwiddershoven.scraper.service;
+package nl.pwiddershoven.script.service;
 
 import javax.script.*;
 
@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Scraper {
+public class ScriptExecutor {
     private static ScriptEngine jsEngine = new ScriptEngineManager().getEngineByName("nashorn");
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private PageFetcher pageFetcher;
 
-    public Scraper() {
+    public ScriptExecutor() {
         try {
             Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
             bindings.put("__ctx", new JsContext());
@@ -28,16 +28,12 @@ public class Scraper {
         }
     }
 
-    public Object scrape(ScrapeConfiguration scrapeConfiguration) {
-        return process(scrapeConfiguration);
-    }
-
-    private Object process(ScrapeConfiguration scrapeConfiguration) {
+    public Object execute(ScriptConfiguration scriptConfiguration) {
         try {
             ScriptContext ctx = new SimpleScriptContext();
             ctx.setBindings(jsEngine.getBindings(ScriptContext.ENGINE_SCOPE), ScriptContext.ENGINE_SCOPE);
 
-            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scrapeConfiguration.processingScript), ctx);
+            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scriptConfiguration.processingScript), ctx);
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);

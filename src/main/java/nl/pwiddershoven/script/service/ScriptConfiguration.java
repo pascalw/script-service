@@ -1,12 +1,12 @@
-package nl.pwiddershoven.scraper.service;
+package nl.pwiddershoven.script.service;
 
 import com.google.common.base.MoreObjects;
 
-public class ScrapeConfiguration {
+public class ScriptConfiguration {
     public final String processingScript;
     public final String contentType;
 
-    public ScrapeConfiguration(String processingScript, String contentType) {
+    public ScriptConfiguration(String processingScript, String contentType) {
         this.processingScript = processingScript;
         this.contentType = contentType;
     }

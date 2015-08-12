@@ -1,4 +1,4 @@
-package nl.pwiddershoven.scraper;
+package nl.pwiddershoven.script;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
