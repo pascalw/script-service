@@ -56,7 +56,16 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
 
     @Override
     public void update(String id, ScriptConfiguration scriptConfiguration) {
-        mongoTemplate.upsert(new Query(Criteria.where("_id").is(id)), createUpdate(id, scriptConfiguration), COLLECTION_NAME);
+        mongoTemplate.upsert(queryForId(id), createUpdate(id, scriptConfiguration), COLLECTION_NAME);
+    }
+
+    @Override
+    public void remove(String id) {
+        mongoTemplate.remove(queryForId(id), COLLECTION_NAME);
+    }
+
+    private Query queryForId(String id) {
+        return new Query(Criteria.where("_id").is(id));
     }
 
     private List<ScriptConfiguration> convert(List<StorageObject> storageObjects) {

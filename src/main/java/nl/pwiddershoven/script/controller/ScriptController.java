@@ -86,6 +86,12 @@ public class ScriptController {
         return buildDTO(scriptConfiguration);
     }
 
+    @DELETE
+    @Path("/configs/{id}")
+    public void removeScriptConfiguration(@PathParam("id") String id) {
+        scriptConfigurationRepository.remove(id);
+    }
+
     @GET
     @AuthenticationNotRequired
     @Path("/executions/{id}")

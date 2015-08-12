@@ -13,4 +13,6 @@ public interface ScriptConfigurationRepository {
     String save(ScriptConfiguration scriptConfiguration);
 
     void update(String id, ScriptConfiguration scriptConfiguration);
+
+    void remove(String id);
 }

@@ -38,6 +38,11 @@ public class InMemoryScriptConfigurationRepository implements ScriptConfiguratio
         storage.put(id, scriptConfiguration);
     }
 
+    @Override
+    public void remove(String id) {
+        storage.remove(id);
+    }
+
     private synchronized long nextId() {
         return nextId++;
     }
