@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import nl.pwiddershoven.scraper.config.AuthenticationNotRequired;
 import nl.pwiddershoven.scraper.repository.ScrapeConfigurationRepository;
 import nl.pwiddershoven.scraper.service.ScrapeConfiguration;
 import nl.pwiddershoven.scraper.service.Scraper;
@@ -76,6 +77,7 @@ public class ScrapeController {
     }
 
     @GET
+    @AuthenticationNotRequired
     @Path("/scrape/{id}")
     public Object getConfiguration(@PathParam("id") String id) {
         ScrapeConfiguration scrapeConfiguration = scrapeConfigurationRepository.find(id);
