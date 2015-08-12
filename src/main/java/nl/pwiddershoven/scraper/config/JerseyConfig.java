@@ -13,6 +13,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         register(JacksonFeature.class);
+        register(AuthenticationFilter.class);
 
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
         property(ServletProperties.FILTER_FORWARD_ON_404, true);
