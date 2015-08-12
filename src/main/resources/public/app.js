@@ -28,6 +28,9 @@
       editor.setTheme("ace/theme/tomorrow_night");
       editor.getSession().setMode("ace/mode/javascript");
 
+      var previewOutput = ace.edit("previewOutput");
+      previewOutput.setTheme("ace/theme/tomorrow_night");
+
       loadConfig($('#id').val());
 
       $('#accessToken').val(getAccessToken()).on('input', function() {
@@ -64,6 +67,37 @@
 
         var id = $('#id').val();
         loadConfig(id);
+      });
+
+      $('#preview').on('click', function(e) {
+        e.preventDefault();
+
+        var url = $('#url').val();
+        var contentType = $('#contentType').val();
+        var code = editor.getValue();
+
+        var json = {pageUrl: url, script: code, contentType: contentType };
+
+        $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          contentType: 'application/json; charset=utf-8',
+          url: '/doScrape',
+          data: JSON.stringify(json),
+          dataType: 'text',
+          success: function(data) {
+            previewOutput.getSession().setMode("ace/mode/xml");
+            previewOutput.setValue(data);
+            previewOutput.scrollToLine(0);
+
+            $('#previewOutput, #editor').css({
+              'display': 'block',
+              'width': '49%',
+              'float': 'left',
+              'margin-right': '0.5%'
+             });
+          }
+        });
       });
     });
 })();

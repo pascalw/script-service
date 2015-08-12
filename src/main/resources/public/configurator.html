@@ -6,9 +6,13 @@
         display: none;
         }
 
-        #editor {
+        #editor, #previewOutput {
         width: 100%;
         height: 500px;
+        }
+
+        #previewOutput {
+        display: none;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -23,8 +27,11 @@
     <input type="text" id="id" value="1"/><br/>
 
     <div id="editor"></div>
+    <div id="previewOutput"></div>
+
     <input type="button" id="loadConfig" value="Load"/>
     <input type="submit" id="submit" value="Save"/>
+    <input type="button" id="preview" value="Preview"/>
     <span id="success">✓</span>
 </form>
 </body>
