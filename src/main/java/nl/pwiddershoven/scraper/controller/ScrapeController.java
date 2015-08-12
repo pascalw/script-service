@@ -26,8 +26,6 @@ public class ScrapeController {
 
     static class ScrapeConfigurationDTO {
         @NotNull
-        public String pageUrl;
-        @NotNull
         public String script;
         @NotNull
         public String contentType;
@@ -60,7 +58,7 @@ public class ScrapeController {
     }
 
     private ScrapeConfiguration buildScrapeConfiguration(ScrapeConfigurationDTO scrapeConfigurationDTO) {
-        return new ScrapeConfiguration(scrapeConfigurationDTO.pageUrl, scrapeConfigurationDTO.script, scrapeConfigurationDTO.contentType);
+        return new ScrapeConfiguration(scrapeConfigurationDTO.script, scrapeConfigurationDTO.contentType);
     }
 
     @GET
@@ -71,7 +69,6 @@ public class ScrapeController {
         ScrapeConfigurationDTO scrapeConfigurationDTO = new ScrapeConfigurationDTO();
         scrapeConfigurationDTO.script = scrapeConfiguration.processingScript;
         scrapeConfigurationDTO.contentType = scrapeConfiguration.contentType;
-        scrapeConfigurationDTO.pageUrl = scrapeConfiguration.pageUrl;
 
         return scrapeConfigurationDTO;
     }

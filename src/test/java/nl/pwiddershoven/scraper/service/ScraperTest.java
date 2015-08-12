@@ -1,8 +1,7 @@
 package nl.pwiddershoven.scraper.service;
 
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,8 @@ public class ScraperTest {
 
     @Test
     public void scrape_generatesJson() {
-        String script = "function(page) {\n" +
+        String script = "function() {\n" +
+                        "  var page = fetchDocument('http://example.org');\n" +
                         "  var result = { speakers: [] };\n" +
                         "  \n" +
                         "  page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
@@ -39,6 +39,8 @@ public class ScraperTest {
 
         ScrapeConfiguration scrapeConfiguration = new ScrapeConfiguration("http://example.org", script, "application/json");
         System.out.println(scraper.scrape(scrapeConfiguration));
+
+        verify(mockPageFetcher).fetch("http://example.org");
     }
 
     @Test

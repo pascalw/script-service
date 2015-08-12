@@ -1,8 +1,11 @@
-function(page) {
+function() {
+  var url = 'https://www.hetzner.de/nl/hosting/news/news-home';
+  var page = fetchDocument(url);
+
   var feed = newFeed()
     .setTitle("Hetzner news")
     .setDescription("Hetzner news")
-    .setLink("https://www.hetzner.de/nl/hosting/news/news-home");
+    .setLink(url);
 
   var nextOfType = function(element, type) {
     var node = element.nextElementSibling();

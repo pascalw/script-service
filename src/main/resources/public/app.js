@@ -3,7 +3,6 @@
 
     function loadConfig(id) {
       $.getJSON('/config/' + id, function(config) {
-        $('#url').val(config.pageUrl);
         $('#contentType').val(config.contentType);
         editor.setValue(config.script);
       });
@@ -41,11 +40,10 @@
         e.preventDefault();
 
         var id = $('#id').val();
-        var url = $('#url').val();
         var contentType = $('#contentType').val();
         var code = editor.getValue();
 
-        var json = {pageUrl: url, script: code, contentType: contentType };
+        var json = {script: code, contentType: contentType };
 
         $.ajax({
           type: 'PUT',
@@ -72,11 +70,10 @@
       $('#preview').on('click', function(e) {
         e.preventDefault();
 
-        var url = $('#url').val();
         var contentType = $('#contentType').val();
         var code = editor.getValue();
 
-        var json = {pageUrl: url, script: code, contentType: contentType };
+        var json = {script: code, contentType: contentType };
 
         $.ajax({
           type: 'POST',

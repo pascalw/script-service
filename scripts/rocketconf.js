@@ -1,8 +1,11 @@
-function(page) {
+function() {
+  var url = 'http://rocketconf.eu';
+  var page = fetchDocument(url);
+
   var feed = newFeed()
     .setTitle("Rocketconf")
     .setDescription("Rocketconf")
-    .setLink("http://rocketconf.eu");
+    .setLink(url);
 
   page.select("#speakers ul li").stream().forEach(function(li) {
     var name = li.select("h3").text();

@@ -22,33 +22,23 @@ public class Scraper {
             bindings.put("__ctx", new JsContext());
 
             jsEngine.eval("newFeed = function() { return __ctx.newFeed(); };");
+            jsEngine.eval("fetchDocument = function(url) { return __ctx.fetchDocument(url); };");
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Object scrape(ScrapeConfiguration scrapeConfiguration) {
-        Document document = fetchDocument(scrapeConfiguration);
-        return process(document, scrapeConfiguration);
+        return process(scrapeConfiguration);
     }
 
-    private Document fetchDocument(ScrapeConfiguration scrapeConfiguration) {
-        String pageSource = pageFetcher.fetch(scrapeConfiguration.pageUrl);
-        return Jsoup.parse(pageSource, scrapeConfiguration.pageUrl);
-    }
-
-    private Object process(Document document, ScrapeConfiguration scrapeConfiguration) {
+    private Object process(ScrapeConfiguration scrapeConfiguration) {
         try {
             ScriptContext ctx = new SimpleScriptContext();
-
-            Bindings bindings = jsEngine.createBindings();
-            bindings.put("__doc", document);
-
-            ctx.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
             ctx.setBindings(jsEngine.getBindings(ScriptContext.ENGINE_SCOPE), ScriptContext.ENGINE_SCOPE);
 
             jsEngine.eval(SCRIPT_WRAPPER + scrapeConfiguration.processingScript, ctx);
-            Object result = jsEngine.eval("process(__doc);", ctx);
+            Object result = jsEngine.eval("process();", ctx);
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
@@ -62,9 +52,14 @@ public class Scraper {
         }
     }
 
-    public static class JsContext {
+    public class JsContext {
         public FeedBuilder newFeed() {
             return new FeedBuilder();
+        }
+
+        public Document fetchDocument(String url) {
+            String pageSource = pageFetcher.fetch(url);
+            return Jsoup.parse(pageSource, url);
         }
     }
 
