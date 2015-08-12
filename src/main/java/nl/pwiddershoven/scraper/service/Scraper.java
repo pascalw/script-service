@@ -18,7 +18,10 @@ public class Scraper {
 
     public Scraper() {
         try {
-            jsEngine.eval("newFeed = function() { return Java.type('nl.pwiddershoven.scraper.service.Scraper.JsContext').newFeed(); };");
+            Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+            bindings.put("__ctx", new JsContext());
+
+            jsEngine.eval("newFeed = function() { return __ctx.newFeed(); };");
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
@@ -60,7 +63,7 @@ public class Scraper {
     }
 
     public static class JsContext {
-        public static FeedBuilder newFeed() {
+        public FeedBuilder newFeed() {
             return new FeedBuilder();
         }
     }
