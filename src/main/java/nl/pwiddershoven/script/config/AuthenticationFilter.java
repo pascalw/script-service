@@ -1,16 +1,20 @@
 package nl.pwiddershoven.script.config;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 import javax.ws.rs.container.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 public class AuthenticationFilter implements ContainerRequestFilter {
 
+    private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
     private static final String VALID_ACCESS_TOKEN = getConfiguredToken();
     private static final Response DENIED_RESPONSE = Response.status(401).build();
-    private static final String DEFAULT_TOKEN = "A:wS'7U-x3Gt";
 
     @Context
     private ResourceInfo resourceInfo;
@@ -43,10 +47,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private static String getConfiguredToken() {
-        String configuredToken = System.getenv("ACCESS_TOKEN");
+        String configuredToken = System.getenv("AUTHENTICATION_TOKEN");
 
-        if (configuredToken == null)
-            return DEFAULT_TOKEN;
+        if (configuredToken == null) {
+            String randomToken = new BigInteger(80, new SecureRandom()).toString(32);
+            LOGGER.warn(String.format("No AUTHENTICATION_TOKEN supplied, using generated token '%s'", randomToken));
+            return randomToken;
+        }
 
         return configuredToken;
     }
