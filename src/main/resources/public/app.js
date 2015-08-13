@@ -45,11 +45,14 @@
 
         var json = {script: code, contentType: contentType };
 
+        var method = id.length == 0 ? 'POST' : 'PUT';
+        var url = method == 'POST' ? '/configs' : '/configs/' + id;
+
         $.ajax({
-          type: 'PUT',
+          type: method,
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
-          url: '/configs/' + id,
+          url: url,
           data: JSON.stringify(json),
           success: function() {
             $('#success').show();
