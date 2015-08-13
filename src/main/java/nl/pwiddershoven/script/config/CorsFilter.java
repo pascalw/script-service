@@ -1,7 +1,7 @@
 package nl.pwiddershoven.script.config;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,20 +15,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter extends OncePerRequestFilter {
+    private final Set<String> allowedOrigins = parseList(readFromEnv("CORS_ALLOWED_ORIGINS", "*"));
+    private final Set<String> allowedMethods = parseList(readFromEnv("CORS_ALLOWED_METHODS", "GET, POST, PUT, DELETE"));
+    private final Set<String> allowedHeaders = parseList(readFromEnv("CORS_ALLOWED_HEADERS", "Authorization, Content-Type"));
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (originIsWhiteListed(request)) {
             response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, request.getHeader(HttpHeaders.ORIGIN));
 
             if (isCORSPreflightRequest(request)) {
-                response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, Joiner.on(",").join(getAllowedMethods()));
-                response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(",").join(getAllowedHeaders()));
+                response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, Joiner.on(",").join(allowedMethods));
+                response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(",").join(allowedHeaders));
             }
         }
 
@@ -42,14 +47,23 @@ public class CorsFilter extends OncePerRequestFilter {
     }
 
     private boolean originIsWhiteListed(HttpServletRequest request) {
-        return true;
+        return allowsAnyOrigin() || allowedOrigins.contains(request.getHeader(HttpHeaders.ORIGIN));
     }
 
-    private List<String> getAllowedMethods() {
-        return ImmutableList.of("GET", "POST", "PUT", "DELETE");
+    private boolean allowsAnyOrigin() {
+        return allowedOrigins.contains("*");
     }
 
-    private List<String> getAllowedHeaders() {
-        return ImmutableList.of("Authorization", "Content-Type");
+    private String readFromEnv(String key, String defaultValue) {
+        String envValue = System.getenv(key);
+
+        if (envValue == null)
+            envValue = defaultValue;
+
+        return envValue;
+    }
+
+    private Set<String> parseList(String commaSeparatedString) {
+        return Sets.newHashSet(Splitter.on(",").split(commaSeparatedString));
     }
 }
