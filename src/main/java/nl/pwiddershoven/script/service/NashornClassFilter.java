@@ -13,6 +13,7 @@ public class NashornClassFilter implements ClassFilter {
             "java.lang.String",
             "java.util.ArrayList",
             "java.util.HashMap",
+            "java.util.Locale",
             "java.text.SimpleDateFormat",
             "org.jsoup.nodes.Document",
             "org.jsoup.select.Elements");
