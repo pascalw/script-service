@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+    <channel>
+        <title>Jenkins Changelog</title>
+        <link>https://jenkins-ci.org/changelog</link>
+        <description>Jenkins Changelog</description>
+        <item>
+            <title>What's new in 1.548 (2014/01/20)</title>
+            <link>https://jenkins-ci.org/changelog#v1.548</link>
+            <description>&lt;ul class="image"&gt;
+                &lt;li class="rfe"&gt; API for adding actions to a wide class of model objects at once. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-18224"&gt;issue 18224&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="major rfe"&gt; Added infrastructure for moving items into or out of folders. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-20008"&gt;issue 20008&lt;/a&gt;) (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-18028"&gt;issue 18028&lt;/a&gt;) (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-18680"&gt;issue 18680&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="bug"&gt; &lt;i&gt;Apply&lt;/i&gt; buttons did not work in Internet Explorer in
+                compatibility mode. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-19826"&gt;issue 19826&lt;/a&gt;)
+                &lt;/li&gt;
+                &lt;li class="major bug"&gt; Builds can seem to disappear from a job in a folder if that folder is
+                renamed. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-18694"&gt;issue 18694&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="bug"&gt; &lt;code&gt;/login&lt;/code&gt; offers link to &lt;code&gt;/opensearch.xml&lt;/code&gt;
+                which anonymous users cannot retrieve. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-21254"&gt;issue
+                21254&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="rfe"&gt; Added API class &lt;code&gt;SecurityListener&lt;/code&gt; to receive login events
+                and similar. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-20999"&gt;issue 20999&lt;/a&gt;)
+                &lt;/li&gt;
+                &lt;li class="rfe"&gt; Option to hold lazy-loaded build references strongly, weakly, and more. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-19400"&gt;issue 19400&lt;/a&gt;)&lt;/li&gt;
+                &lt;/ul&gt;</description>
+            <pubDate>Mon, 20 Jan 2014 00:00:00 GMT</pubDate>
+            <guid>https://jenkins-ci.org/changelog#v1.548</guid>
+            <dc:date>2014-01-20T00:00:00Z</dc:date>
+        </item>
+        <item>
+            <title>What's new in 1.547 (2014/01/12)</title>
+            <link>https://jenkins-ci.org/changelog#v1.547</link>
+            <description>&lt;ul class="image"&gt;
+                &lt;li class="rfe"&gt; Split Windows slave functionality into its own plugin. &lt;/li&gt;
+                &lt;li class="major bug"&gt; NPE since 1.545 when using aggregated test result publisher without
+                specifying downstream jobs explicitly. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-18410"&gt;issue
+                18410&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="bug"&gt; Fixed Trend Graph NPE when there isn't any builds (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-21239"&gt;issue 21239&lt;/a&gt;)&lt;/li&gt;
+                &lt;/ul&gt;</description>
+            <pubDate>Sun, 12 Jan 2014 00:00:00 GMT</pubDate>
+            <guid>https://jenkins-ci.org/changelog#v1.547</guid>
+            <dc:date>2014-01-12T00:00:00Z</dc:date>
+        </item>
+        <item>
+            <title>What's new in 1.546 (2014/01/06)</title>
+            <link>https://jenkins-ci.org/changelog#v1.546</link>
+            <description>&lt;ul class="image"&gt;
+                &lt;li class="major bug"&gt; Builds disappear after renaming a job. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-18678"&gt;issue 18678&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="bug"&gt; When clicking &lt;i&gt;Apply&lt;/i&gt; to rename a job, tell the user that &lt;i&gt;Save&lt;/i&gt;
+                must be used instead. (&lt;a href="https://issues.jenkins-ci.org/browse/JENKINS-17401"&gt;issue 17401&lt;/a&gt;)
+                &lt;/li&gt;
+                &lt;li class="major bug"&gt; Exception from XStream running Maven builds on strange Java versions. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-21183"&gt;issue 21183&lt;/a&gt;) &lt;/li&gt;
+                &lt;li class="bug"&gt; When clicking &lt;i&gt;Apply&lt;/i&gt; results in an exception (error page), show
+                it, rather than creating an empty dialog. (&lt;a
+                href="https://issues.jenkins-ci.org/browse/JENKINS-20772"&gt;issue 20772&lt;/a&gt;)&lt;/li&gt;
+                &lt;/ul&gt;</description>
+            <pubDate>Mon, 06 Jan 2014 00:00:00 GMT</pubDate>
+            <guid>https://jenkins-ci.org/changelog#v1.546</guid>
+            <dc:date>2014-01-06T00:00:00Z</dc:date>
+        </item>
+    </channel>
+</rss>

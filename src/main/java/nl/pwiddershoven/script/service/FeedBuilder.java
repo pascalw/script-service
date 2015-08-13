@@ -3,6 +3,8 @@ package nl.pwiddershoven.script.service;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableList;
 import com.rometools.rome.feed.synd.*;
@@ -16,6 +18,11 @@ public class FeedBuilder {
     public FeedBuilder() {
         feed = new SyndFeedImpl();
         entries = new ArrayList<>();
+    }
+
+    public FeedBuilder(SyndFeed feed) {
+        this.feed = feed;
+        this.entries = feed.getEntries();
     }
 
     public FeedBuilder setTitle(String title) {
@@ -46,6 +53,14 @@ public class FeedBuilder {
         return new FeedEntry();
     }
 
+    public void filterEntries(Predicate<FeedEntry> predicate) {
+        entries = entries.stream()
+                .map(FeedEntry::new)
+                .filter(predicate)
+                .map(e -> e.entry)
+                .collect(Collectors.toList());
+    }
+
     public String build(String feedType) {
         feed.setFeedType(feedType);
         feed.setEntries(entries);
@@ -70,7 +85,15 @@ public class FeedBuilder {
         private SyndEntry entry;
 
         public FeedEntry() {
-            entry = new SyndEntryImpl();
+            this(new SyndEntryImpl());
+        }
+
+        public FeedEntry(SyndEntry entry) {
+            this.entry = entry;
+        }
+
+        public String getTitle() {
+            return entry.getTitle();
         }
 
         public FeedEntry setTitle(String title) {
@@ -78,9 +101,18 @@ public class FeedBuilder {
             return this;
         }
 
+        public String getLink() {
+            return entry.getLink();
+        }
+
         public FeedEntry setLink(String link) {
             entry.setLink(link);
             return this;
+        }
+
+        public String getDescription() {
+            SyndContent syndContent = entry.getDescription();
+            return syndContent.getValue();
         }
 
         public FeedEntry setDescription(String description) {
@@ -92,9 +124,17 @@ public class FeedBuilder {
             return this;
         }
 
+        public Date getPublishedDate() {
+            return entry.getPublishedDate();
+        }
+
         public FeedEntry setPublishedDate(Date publishedDate) {
             entry.setPublishedDate(publishedDate);
             return this;
+        }
+
+        public String getAuthor() {
+            return entry.getAuthor();
         }
 
         public FeedEntry setAuthor(String author) {
@@ -105,6 +145,12 @@ public class FeedBuilder {
             entry.setAuthors(authors);
 
             return this;
+        }
+
+        public List<String> getCategories() {
+            return entry.getCategories().stream()
+                    .map(SyndCategory::getName)
+                    .collect(Collectors.toList());
         }
     }
 }

@@ -1,5 +1,7 @@
 package nl.pwiddershoven.script.service;
 
+import java.io.StringReader;
+
 import javax.script.*;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
@@ -9,6 +11,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
 
 @Component
 public class ScriptExecutor {
@@ -26,6 +32,7 @@ public class ScriptExecutor {
             bindings.put("__ctx", new JsContext());
 
             jsEngine.eval("newFeed = function() { return __ctx.newFeed(); };");
+            jsEngine.eval("fetchFeed = function(url) { return __ctx.fetchFeed(url); };");
             jsEngine.eval("fetchDocument = function(url) { return __ctx.fetchDocument(url); };");
         } catch (ScriptException e) {
             throw new RuntimeException(e);
@@ -54,6 +61,15 @@ public class ScriptExecutor {
     public class JsContext {
         public FeedBuilder newFeed() {
             return new FeedBuilder();
+        }
+
+        public FeedBuilder fetchFeed(String url) throws FeedException {
+            SyndFeedInput syndFeedInput = new SyndFeedInput();
+
+            String pageSource = pageFetcher.fetch(url);
+            SyndFeed feed = syndFeedInput.build(new StringReader(pageSource));
+
+            return new FeedBuilder(feed);
         }
 
         public Document fetchDocument(String url) {
