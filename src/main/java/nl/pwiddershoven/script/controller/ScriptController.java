@@ -82,7 +82,7 @@ public class ScriptController {
     @GET
     @Path("/configs/{id}")
     public ScriptConfigurationDTO getScriptConfiguration(@PathParam("id") String id) {
-        ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
+        ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
         return buildDTO(scriptConfiguration);
     }
 
@@ -96,8 +96,16 @@ public class ScriptController {
     @AuthenticationNotRequired
     @Path("/executions/{id}")
     public Object getConfiguration(@PathParam("id") String id) {
-        ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
+        ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
         return doExecute(scriptConfiguration);
+    }
+
+    private ScriptConfiguration findConfigurationOr404(@PathParam("id") String id) {
+        ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
+
+        if (scriptConfiguration == null)
+            throw new WebApplicationException(404);
+        return scriptConfiguration;
     }
 
     private ScriptConfigurationDTO buildDTO(ScriptConfiguration scriptConfiguration) {

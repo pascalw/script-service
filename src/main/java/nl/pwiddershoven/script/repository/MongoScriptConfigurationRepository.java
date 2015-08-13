@@ -73,6 +73,9 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     }
 
     private ScriptConfiguration convert(StorageObject storageObject) {
+        if (storageObject == null)
+            return null;
+
         return new ScriptConfiguration(storageObject.id, storageObject.script, storageObject.contentType);
     }
 
