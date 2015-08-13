@@ -2,7 +2,7 @@
     var editor;
 
     function loadConfig(id) {
-      $.getJSON('/config/' + id, function(config) {
+      $.getJSON('/configs/' + id, function(config) {
         $('#contentType').val(config.contentType);
         editor.setValue(config.script);
       });
@@ -49,7 +49,7 @@
           type: 'PUT',
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
-          url: '/config/' + id,
+          url: '/configs/' + id,
           data: JSON.stringify(json),
           success: function() {
             $('#success').show();
