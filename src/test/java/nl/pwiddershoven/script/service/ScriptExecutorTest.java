@@ -38,7 +38,8 @@ public class ScriptExecutorTest {
     public void script_generatesJson() {
         when(mockPageFetcher.fetch("http://example.org")).thenReturn(resourceContent("index.html"));
 
-        String script = "var page = net.fetchDocument('http://example.org');\n" +
+        String script = "var net = require('net');\n" +
+                        "var page = net.fetchDocument('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +
                         "page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
@@ -69,19 +70,19 @@ public class ScriptExecutorTest {
 
     @Test
     public void script_generatesFeed() {
-        String script = "var f = feed.newFeed()\n" +
+        String script = "var feed = require('feed').newFeed()\n" +
                         "  .setTitle(\"My feed\")\n" +
                         "  .setDescription(\"My feed\")\n" +
                         "  .setLink(\"http://google.com\");\n" +
                         "\n" +
-                        "var entry = f.newEntry()\n" +
+                        "var entry = feed.newEntry()\n" +
                         "  .setTitle(\"Item 1\")\n" +
                         "  .setLink(\"http://google.com\")\n" +
                         "  .setPublishedDate(new java.util.Date())\n" +
                         "  .setDescription(\"ohai!\");\n" +
                         "\n" +
-                        "f.addEntry(entry);\n" +
-                        "return f;";
+                        "feed.addEntry(entry);\n" +
+                        "return feed;";
 
         ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "text/xml");
         System.out.println(scriptExecutor.execute(scriptConfiguration));
@@ -91,10 +92,10 @@ public class ScriptExecutorTest {
     public void script_modifiesFeed() throws Exception {
         when(mockPageFetcher.fetch(anyString())).thenReturn(resourceContent("feed.xml"));
 
-        String script = "var f = feed.fetchFeed('http://example.org');\n" +
-                        "f.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
+        String script = "var feed = require('feed').fetchFeed('http://example.org');\n" +
+                        "feed.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
                         "\n" +
-                        "return f.build();";
+                        "return feed.build();";
 
         ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "text/xml");
         String feedXml = (String) scriptExecutor.execute(scriptConfiguration);

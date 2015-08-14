@@ -1,6 +1,6 @@
 package nl.pwiddershoven.script.service.script;
 
-import java.util.Set;
+import java.util.*;
 
 import javax.script.*;
 
@@ -18,10 +18,20 @@ public class ScriptExecutor {
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private ScriptEngine jsEngine;
+    private Map<String, JsModule> jsModules = new HashMap<>();
 
     public ScriptExecutor() {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
+
+        Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        bindings.put("__ctx", new JsContext());
+
+        try {
+            jsEngine.eval("require = function(moduleName) { return __ctx.require(moduleName); };");
+        } catch (ScriptException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Object execute(ScriptConfiguration scriptConfiguration) {
@@ -43,12 +53,20 @@ public class ScriptExecutor {
         }
     }
 
+    public class JsContext {
+        public Object require(String moduleName) {
+            JsModule module = jsModules.get(moduleName);
+            if (module == null)
+                return new RuntimeException("Module not found");
+
+            return module;
+        }
+    }
+
     @Autowired
     public void setJsContexts(Set<JsModule> jsModules) {
-        Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
-
-        for (JsModule ctx : jsModules) {
-            bindings.put(ctx.moduleName(), ctx);
+        for (JsModule module : jsModules) {
+            this.jsModules.put(module.name(), module);
         }
     }
 }

@@ -19,7 +19,7 @@ public class NetJsModule implements JsModule {
     }
 
     @Override
-    public String moduleName() {
+    public String name() {
         return "net";
     }
 

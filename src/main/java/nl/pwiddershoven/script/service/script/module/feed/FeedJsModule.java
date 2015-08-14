@@ -23,7 +23,7 @@ public class FeedJsModule implements JsModule {
     }
 
     @Override
-    public String moduleName() {
+    public String name() {
         return "feed";
     }
 
