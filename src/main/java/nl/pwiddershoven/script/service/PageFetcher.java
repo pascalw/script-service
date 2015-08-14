@@ -1,5 +1,5 @@
 package nl.pwiddershoven.script.service;
 
-interface PageFetcher {
+public interface PageFetcher {
     String fetch(String urlString);
 }

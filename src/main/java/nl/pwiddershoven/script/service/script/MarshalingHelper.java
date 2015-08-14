@@ -1,4 +1,4 @@
-package nl.pwiddershoven.script.service;
+package nl.pwiddershoven.script.service.script;
 
 import java.util.*;
 

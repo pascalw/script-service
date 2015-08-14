@@ -1,39 +1,34 @@
-package nl.pwiddershoven.script.service;
+package nl.pwiddershoven.script.service.script;
 
-import java.io.StringReader;
+import java.util.*;
 
 import javax.script.*;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import nl.pwiddershoven.script.service.ScriptConfiguration;
+import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.feed.FeedBuilder;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.FeedException;
-import com.rometools.rome.io.SyndFeedInput;
 
 @Component
 public class ScriptExecutor {
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private ScriptEngine jsEngine;
-    private PageFetcher pageFetcher;
+    private Map<String, JsModule> jsModules = new HashMap<>();
 
     public ScriptExecutor() {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
 
-        try {
-            Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
-            bindings.put("__ctx", new JsContext());
+        Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
+        bindings.put("__ctx", new JsContext());
 
-            jsEngine.eval("newFeed = function() { return __ctx.newFeed(); };");
-            jsEngine.eval("fetchFeed = function(url) { return __ctx.fetchFeed(url); };");
-            jsEngine.eval("fetchDocument = function(url) { return __ctx.fetchDocument(url); };");
+        try {
+            jsEngine.eval("require = function(moduleName) { return __ctx.require(moduleName); };");
         } catch (ScriptException e) {
             throw new RuntimeException(e);
         }
@@ -59,27 +54,19 @@ public class ScriptExecutor {
     }
 
     public class JsContext {
-        public FeedBuilder newFeed() {
-            return new FeedBuilder();
-        }
+        public Object require(String moduleName) {
+            JsModule module = jsModules.get(moduleName);
+            if (module == null)
+                return new RuntimeException("Module not found");
 
-        public FeedBuilder fetchFeed(String url) throws FeedException {
-            SyndFeedInput syndFeedInput = new SyndFeedInput();
-
-            String pageSource = pageFetcher.fetch(url);
-            SyndFeed feed = syndFeedInput.build(new StringReader(pageSource));
-
-            return new FeedBuilder(feed);
-        }
-
-        public Document fetchDocument(String url) {
-            String pageSource = pageFetcher.fetch(url);
-            return Jsoup.parse(pageSource, url);
+            return module;
         }
     }
 
     @Autowired
-    public void setPageFetcher(PageFetcher pageFetcher) {
-        this.pageFetcher = pageFetcher;
+    public void setJsContexts(Set<JsModule> jsModules) {
+        for (JsModule module : jsModules) {
+            this.jsModules.put(module.name(), module);
+        }
     }
 }

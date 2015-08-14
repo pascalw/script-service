@@ -9,15 +9,20 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashSet;
 import java.util.Map;
+
+import nl.pwiddershoven.script.service.script.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.feed.FeedModule;
+import nl.pwiddershoven.script.service.script.module.scrape.ScraperModule;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.StreamUtils;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.*;
 
 public class ScriptExecutorTest {
     private ScriptExecutor scriptExecutor = new ScriptExecutor();
@@ -25,14 +30,16 @@ public class ScriptExecutorTest {
 
     @Before
     public void setUp() {
-        scriptExecutor.setPageFetcher(mockPageFetcher);
+        HashSet<JsModule> jsModules = Sets.newHashSet(new FeedModule(mockPageFetcher), new ScraperModule(mockPageFetcher));
+        scriptExecutor.setJsContexts(jsModules);
     }
 
     @Test
     public void script_generatesJson() {
         when(mockPageFetcher.fetch("http://example.org")).thenReturn(resourceContent("index.html"));
 
-        String script = "var page = fetchDocument('http://example.org');\n" +
+        String script = "var scraper = require('scrape');\n" +
+                        "var page = scraper.scrape('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +
                         "page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
@@ -63,7 +70,7 @@ public class ScriptExecutorTest {
 
     @Test
     public void script_generatesFeed() {
-        String script = "var feed = newFeed()\n" +
+        String script = "var feed = require('feed').newFeed()\n" +
                         "  .setTitle(\"My feed\")\n" +
                         "  .setDescription(\"My feed\")\n" +
                         "  .setLink(\"http://google.com\");\n" +
@@ -85,7 +92,7 @@ public class ScriptExecutorTest {
     public void script_modifiesFeed() throws Exception {
         when(mockPageFetcher.fetch(anyString())).thenReturn(resourceContent("feed.xml"));
 
-        String script = "var feed = fetchFeed('http://example.org');\n" +
+        String script = "var feed = require('feed').fetch('http://example.org');\n" +
                         "feed.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
                         "\n" +
                         "return feed.build();";

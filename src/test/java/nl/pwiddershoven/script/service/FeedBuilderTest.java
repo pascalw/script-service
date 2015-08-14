@@ -2,6 +2,7 @@ package nl.pwiddershoven.script.service;
 
 import java.util.Date;
 
+import nl.pwiddershoven.script.service.script.module.feed.FeedBuilder;
 import org.junit.Test;
 
 public class FeedBuilderTest {

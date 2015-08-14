@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import nl.pwiddershoven.script.config.AuthenticationNotRequired;
 import nl.pwiddershoven.script.repository.ScriptConfigurationRepository;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
-import nl.pwiddershoven.script.service.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.ScriptExecutor;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

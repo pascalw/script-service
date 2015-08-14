@@ -1,4 +1,4 @@
-package nl.pwiddershoven.script.service;
+package nl.pwiddershoven.script.service.script.module.feed;
 
 import java.io.IOException;
 import java.io.StringWriter;
