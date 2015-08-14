@@ -9,15 +9,20 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashSet;
 import java.util.Map;
+
+import nl.pwiddershoven.script.service.script.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.context.JsContext;
+import nl.pwiddershoven.script.service.script.context.feed.FeedJsContext;
+import nl.pwiddershoven.script.service.script.context.net.NetJsContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.StreamUtils;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.*;
 
 public class ScriptExecutorTest {
     private ScriptExecutor scriptExecutor = new ScriptExecutor();
@@ -25,14 +30,15 @@ public class ScriptExecutorTest {
 
     @Before
     public void setUp() {
-        scriptExecutor.setPageFetcher(mockPageFetcher);
+        HashSet<JsContext> jsContexts = Sets.newHashSet(new FeedJsContext(mockPageFetcher), new NetJsContext(mockPageFetcher));
+        scriptExecutor.setJsContexts(jsContexts);
     }
 
     @Test
     public void script_generatesJson() {
         when(mockPageFetcher.fetch("http://example.org")).thenReturn(resourceContent("index.html"));
 
-        String script = "var page = fetchDocument('http://example.org');\n" +
+        String script = "var page = net.fetchDocument('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +
                         "page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
@@ -63,19 +69,19 @@ public class ScriptExecutorTest {
 
     @Test
     public void script_generatesFeed() {
-        String script = "var feed = newFeed()\n" +
+        String script = "var f = feed.newFeed()\n" +
                         "  .setTitle(\"My feed\")\n" +
                         "  .setDescription(\"My feed\")\n" +
                         "  .setLink(\"http://google.com\");\n" +
                         "\n" +
-                        "var entry = feed.newEntry()\n" +
+                        "var entry = f.newEntry()\n" +
                         "  .setTitle(\"Item 1\")\n" +
                         "  .setLink(\"http://google.com\")\n" +
                         "  .setPublishedDate(new java.util.Date())\n" +
                         "  .setDescription(\"ohai!\");\n" +
                         "\n" +
-                        "feed.addEntry(entry);\n" +
-                        "return feed;";
+                        "f.addEntry(entry);\n" +
+                        "return f;";
 
         ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "text/xml");
         System.out.println(scriptExecutor.execute(scriptConfiguration));
@@ -85,10 +91,10 @@ public class ScriptExecutorTest {
     public void script_modifiesFeed() throws Exception {
         when(mockPageFetcher.fetch(anyString())).thenReturn(resourceContent("feed.xml"));
 
-        String script = "var feed = fetchFeed('http://example.org');\n" +
-                        "feed.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
+        String script = "var f = feed.fetchFeed('http://example.org');\n" +
+                        "f.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
                         "\n" +
-                        "return feed.build();";
+                        "return f.build();";
 
         ScriptConfiguration scriptConfiguration = new ScriptConfiguration(script, "text/xml");
         String feedXml = (String) scriptExecutor.execute(scriptConfiguration);
