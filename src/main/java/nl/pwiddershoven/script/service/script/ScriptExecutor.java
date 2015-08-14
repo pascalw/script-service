@@ -8,6 +8,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
 import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,7 @@ public class ScriptExecutor {
 
             return result;
         } catch (ScriptException e) {
-            throw new RuntimeException(e);
+            throw new ScriptExecutionException(e);
         }
     }
 
@@ -59,7 +60,7 @@ public class ScriptExecutor {
         public Object require(String moduleName) {
             JsModule module = jsModules.get(moduleName);
             if (module == null)
-                return new RuntimeException("Module not found");
+                throw new ScriptExecutionException("Module not found");
 
             return module;
         }
