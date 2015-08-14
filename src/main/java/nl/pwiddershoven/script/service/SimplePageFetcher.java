@@ -1,6 +1,8 @@
 package nl.pwiddershoven.script.service;
 
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.util.IOUtils;
+import com.google.common.base.Charsets;
 
 @Component
 public class SimplePageFetcher implements PageFetcher {
@@ -19,13 +23,31 @@ public class SimplePageFetcher implements PageFetcher {
         long start = System.currentTimeMillis();
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(toUrl(urlString));
-            return request.execute().parseAsString();
+            return parseAsString(request.execute());
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             long end = System.currentTimeMillis();
             logger.info("Fetching took " + (end - start));
         }
+    }
+
+    /**
+     * Patched @{link HttpResponse#parseAsString} with default UTF-8 instead of ISO_8859_1
+     * which IMO makes more sense.
+     */
+    private String parseAsString(HttpResponse response) throws IOException {
+        InputStream content = response.getContent();
+        if (content == null) {
+            return "";
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        IOUtils.copy(content, out);
+
+        HttpMediaType mediaType = response.getMediaType();
+
+        Charset charset = mediaType == null || mediaType.getCharsetParameter() == null ? Charsets.UTF_8 : mediaType.getCharsetParameter();
+        return out.toString(charset.name());
     }
 
     private GenericUrl toUrl(String urlString) {
@@ -37,5 +59,4 @@ public class SimplePageFetcher implements PageFetcher {
 
         return new GenericUrl(encodedUri);
     }
-
 }
