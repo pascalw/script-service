@@ -13,9 +13,9 @@ import java.util.HashSet;
 import java.util.Map;
 
 import nl.pwiddershoven.script.service.script.ScriptExecutor;
-import nl.pwiddershoven.script.service.script.context.JsContext;
-import nl.pwiddershoven.script.service.script.context.feed.FeedJsContext;
-import nl.pwiddershoven.script.service.script.context.net.NetJsContext;
+import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.feed.FeedJsModule;
+import nl.pwiddershoven.script.service.script.module.net.NetJsModule;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
@@ -30,8 +30,8 @@ public class ScriptExecutorTest {
 
     @Before
     public void setUp() {
-        HashSet<JsContext> jsContexts = Sets.newHashSet(new FeedJsContext(mockPageFetcher), new NetJsContext(mockPageFetcher));
-        scriptExecutor.setJsContexts(jsContexts);
+        HashSet<JsModule> jsModules = Sets.newHashSet(new FeedJsModule(mockPageFetcher), new NetJsModule(mockPageFetcher));
+        scriptExecutor.setJsContexts(jsModules);
     }
 
     @Test

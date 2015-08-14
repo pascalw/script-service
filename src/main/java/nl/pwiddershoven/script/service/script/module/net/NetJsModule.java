@@ -1,7 +1,7 @@
-package nl.pwiddershoven.script.service.script.context.net;
+package nl.pwiddershoven.script.service.script.module.net;
 
 import nl.pwiddershoven.script.service.PageFetcher;
-import nl.pwiddershoven.script.service.script.context.JsContext;
+import nl.pwiddershoven.script.service.script.module.JsModule;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NetJsContext implements JsContext {
+public class NetJsModule implements JsModule {
 
     private PageFetcher pageFetcher;
 
     @Autowired
-    public NetJsContext(PageFetcher pageFetcher) {
+    public NetJsModule(PageFetcher pageFetcher) {
         this.pageFetcher = pageFetcher;
     }
 

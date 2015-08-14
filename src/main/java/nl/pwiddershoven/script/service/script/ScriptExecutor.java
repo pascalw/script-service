@@ -7,8 +7,8 @@ import javax.script.*;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
-import nl.pwiddershoven.script.service.script.context.JsContext;
-import nl.pwiddershoven.script.service.script.context.feed.FeedBuilder;
+import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.feed.FeedBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,10 +44,10 @@ public class ScriptExecutor {
     }
 
     @Autowired
-    public void setJsContexts(Set<JsContext> jsContexts) {
+    public void setJsContexts(Set<JsModule> jsModules) {
         Bindings bindings = jsEngine.getBindings(ScriptContext.ENGINE_SCOPE);
 
-        for (JsContext ctx : jsContexts) {
+        for (JsModule ctx : jsModules) {
             bindings.put(ctx.moduleName(), ctx);
         }
     }

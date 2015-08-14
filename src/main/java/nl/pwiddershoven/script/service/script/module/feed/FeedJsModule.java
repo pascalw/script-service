@@ -1,9 +1,9 @@
-package nl.pwiddershoven.script.service.script.context.feed;
+package nl.pwiddershoven.script.service.script.module.feed;
 
 import java.io.StringReader;
 
 import nl.pwiddershoven.script.service.PageFetcher;
-import nl.pwiddershoven.script.service.script.context.JsContext;
+import nl.pwiddershoven.script.service.script.module.JsModule;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,12 +13,12 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 
 @Component
-public class FeedJsContext implements JsContext {
+public class FeedJsModule implements JsModule {
 
     private PageFetcher pageFetcher;
 
     @Autowired
-    public FeedJsContext(PageFetcher pageFetcher) {
+    public FeedJsModule(PageFetcher pageFetcher) {
         this.pageFetcher = pageFetcher;
     }
 
