@@ -14,8 +14,8 @@ import java.util.Map;
 
 import nl.pwiddershoven.script.service.script.ScriptExecutor;
 import nl.pwiddershoven.script.service.script.module.JsModule;
-import nl.pwiddershoven.script.service.script.module.feed.FeedJsModule;
-import nl.pwiddershoven.script.service.script.module.net.NetJsModule;
+import nl.pwiddershoven.script.service.script.module.feed.FeedModule;
+import nl.pwiddershoven.script.service.script.module.scrape.ScraperModule;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class ScriptExecutorTest {
 
     @Before
     public void setUp() {
-        HashSet<JsModule> jsModules = Sets.newHashSet(new FeedJsModule(mockPageFetcher), new NetJsModule(mockPageFetcher));
+        HashSet<JsModule> jsModules = Sets.newHashSet(new FeedModule(mockPageFetcher), new ScraperModule(mockPageFetcher));
         scriptExecutor.setJsContexts(jsModules);
     }
 
@@ -38,8 +38,8 @@ public class ScriptExecutorTest {
     public void script_generatesJson() {
         when(mockPageFetcher.fetch("http://example.org")).thenReturn(resourceContent("index.html"));
 
-        String script = "var net = require('net');\n" +
-                        "var page = net.fetchDocument('http://example.org');\n" +
+        String script = "var scraper = require('scrape');\n" +
+                        "var page = scraper.scrape('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +
                         "page.select(\"#speakers ul li\").stream().forEach(function(li) {\n" +
@@ -92,7 +92,7 @@ public class ScriptExecutorTest {
     public void script_modifiesFeed() throws Exception {
         when(mockPageFetcher.fetch(anyString())).thenReturn(resourceContent("feed.xml"));
 
-        String script = "var feed = require('feed').fetchFeed('http://example.org');\n" +
+        String script = "var feed = require('feed').fetch('http://example.org');\n" +
                         "feed.filterEntries(function(e) { return e.getTitle().contains(\"1.546\") });\n" +
                         "\n" +
                         "return feed.build();";

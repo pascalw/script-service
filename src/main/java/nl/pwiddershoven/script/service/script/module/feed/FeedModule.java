@@ -13,12 +13,12 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 
 @Component
-public class FeedJsModule implements JsModule {
+public class FeedModule implements JsModule {
 
     private PageFetcher pageFetcher;
 
     @Autowired
-    public FeedJsModule(PageFetcher pageFetcher) {
+    public FeedModule(PageFetcher pageFetcher) {
         this.pageFetcher = pageFetcher;
     }
 
@@ -31,7 +31,7 @@ public class FeedJsModule implements JsModule {
         return new FeedBuilder();
     }
 
-    public FeedBuilder fetchFeed(String url) throws FeedException {
+    public FeedBuilder fetch(String url) throws FeedException {
         SyndFeedInput syndFeedInput = new SyndFeedInput();
 
         String pageSource = pageFetcher.fetch(url);

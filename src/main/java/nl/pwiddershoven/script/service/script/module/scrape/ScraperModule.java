@@ -1,4 +1,4 @@
-package nl.pwiddershoven.script.service.script.module.net;
+package nl.pwiddershoven.script.service.script.module.scrape;
 
 import nl.pwiddershoven.script.service.PageFetcher;
 import nl.pwiddershoven.script.service.script.module.JsModule;
@@ -9,21 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NetJsModule implements JsModule {
+public class ScraperModule implements JsModule {
 
     private PageFetcher pageFetcher;
 
     @Autowired
-    public NetJsModule(PageFetcher pageFetcher) {
+    public ScraperModule(PageFetcher pageFetcher) {
         this.pageFetcher = pageFetcher;
     }
 
     @Override
     public String name() {
-        return "net";
+        return "scraper";
     }
 
-    public Document fetchDocument(String url) {
+    public Document scrape(String url) {
         String pageSource = pageFetcher.fetch(url);
         return Jsoup.parse(pageSource, url);
     }
