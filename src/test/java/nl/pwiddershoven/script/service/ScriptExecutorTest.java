@@ -31,7 +31,7 @@ public class ScriptExecutorTest {
     @Before
     public void setUp() {
         HashSet<JsModule> jsModules = Sets.newHashSet(new FeedModule(mockPageFetcher), new ScraperModule(mockPageFetcher));
-        scriptExecutor.setJsContexts(jsModules);
+        scriptExecutor.setJsModules(jsModules);
     }
 
     @Test
