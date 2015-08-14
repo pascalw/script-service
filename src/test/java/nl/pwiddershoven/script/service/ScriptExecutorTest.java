@@ -38,7 +38,7 @@ public class ScriptExecutorTest {
     public void script_generatesJson() {
         when(mockPageFetcher.fetch("http://example.org")).thenReturn(resourceContent("index.html"));
 
-        String script = "var scraper = require('scrape');\n" +
+        String script = "var scraper = require('scraper');\n" +
                         "var page = scraper.scrape('http://example.org');\n" +
                         "var result = { speakers: [] };\n" +
                         "  \n" +

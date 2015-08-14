@@ -8,7 +8,6 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
 import nl.pwiddershoven.script.service.script.module.JsModule;
-import nl.pwiddershoven.script.service.script.module.feed.FeedBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,9 +42,6 @@ public class ScriptExecutor {
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
-
-            if (result instanceof FeedBuilder)
-                result = ((FeedBuilder) result).build();
 
             return result;
         } catch (ScriptException e) {
