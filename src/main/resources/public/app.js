@@ -72,6 +72,7 @@
 
       $('#preview').on('click', function(e) {
         e.preventDefault();
+        previewOutput.setValue('');
 
         var contentType = $('#contentType').val();
         var code = editor.getValue();
