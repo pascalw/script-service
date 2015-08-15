@@ -34,6 +34,8 @@ public class ScriptController {
 
         @NotNull
         public String contentType;
+
+        public String accessToken;
     }
 
     @Autowired
@@ -63,7 +65,7 @@ public class ScriptController {
     }
 
     private ScriptConfiguration buildScriptConfiguration(ScriptConfigurationDTO scriptConfigurationDTO) {
-        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType);
+        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType, scriptConfigurationDTO.accessToken);
     }
 
     @GET
@@ -114,6 +116,7 @@ public class ScriptController {
         scriptConfigurationDTO.id = scriptConfiguration.id;
         scriptConfigurationDTO.script = scriptConfiguration.processingScript;
         scriptConfigurationDTO.contentType = scriptConfiguration.contentType;
+        scriptConfigurationDTO.accessToken = scriptConfiguration.accessToken;
 
         return scriptConfigurationDTO;
     }

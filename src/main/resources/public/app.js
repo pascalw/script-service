@@ -4,21 +4,22 @@
     function loadConfig(id) {
       $.getJSON('/configs/' + id, function(config) {
         $('#contentType').val(config.contentType);
+        $('#accessToken').val(config.accessToken);
         editor.setValue(config.script);
       });
     }
 
-    function getAccessToken() {
+    function getApiAccessToken() {
       return localStorage.getItem('accessToken');
     }
 
-    function setAccessToken(token) {
+    function setApiAccessToken(token) {
         localStorage.setItem('accessToken', token);
     }
 
     $.ajaxSetup({
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization', 'token ' + getAccessToken());
+        req.setRequestHeader('Authorization', 'token ' + getApiAccessToken());
       }
     });
 
@@ -32,8 +33,8 @@
 
       loadConfig($('#id').val());
 
-      $('#accessToken').val(getAccessToken()).on('input', function() {
-        setAccessToken(this.value);
+      $('#apiAccessToken').val(getApiAccessToken()).on('input', function() {
+        setApiAccessToken(this.value);
       });
 
       $('#configurator').on('submit', function(e) {
@@ -41,9 +42,10 @@
 
         var id = $('#id').val();
         var contentType = $('#contentType').val();
+        var accessToken = $('#accessToken').val();
         var code = editor.getValue();
 
-        var json = {script: code, contentType: contentType };
+        var json = {script: code, contentType: contentType, accessToken: accessToken};
 
         var method = id.length == 0 ? 'POST' : 'PUT';
         var url = method == 'POST' ? '/configs' : '/configs/' + id;

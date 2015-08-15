@@ -28,6 +28,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
         public String id;
         public String script;
         public String contentType;
+        public String accessToken;
     }
 
     @Override
@@ -49,6 +50,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
         StorageObject storageObject = new StorageObject();
         storageObject.script = scriptConfiguration.processingScript;
         storageObject.contentType = scriptConfiguration.contentType;
+        storageObject.accessToken = scriptConfiguration.accessToken;
 
         mongoTemplate.save(storageObject, COLLECTION_NAME);
         return storageObject.id;
@@ -76,7 +78,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
         if (storageObject == null)
             return null;
 
-        return new ScriptConfiguration(storageObject.id, storageObject.script, storageObject.contentType);
+        return new ScriptConfiguration(storageObject.id, storageObject.script, storageObject.contentType, storageObject.accessToken);
     }
 
     private Update createUpdate(String id, ScriptConfiguration scriptConfiguration) {
@@ -84,6 +86,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
         storageObject.id = id;
         storageObject.script = scriptConfiguration.processingScript;
         storageObject.contentType = scriptConfiguration.contentType;
+        storageObject.accessToken = scriptConfiguration.accessToken;
 
         DBObject dbDoc = new BasicDBObject();
         mongoTemplate.getConverter().write(storageObject, dbDoc);
