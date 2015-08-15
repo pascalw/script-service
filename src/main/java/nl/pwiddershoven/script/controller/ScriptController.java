@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 import nl.pwiddershoven.script.config.AuthenticationNotRequired;
 import nl.pwiddershoven.script.repository.ScriptConfigurationRepository;
@@ -34,6 +33,8 @@ public class ScriptController {
 
         @NotNull
         public String contentType;
+
+        public String accessToken;
     }
 
     @Autowired
@@ -63,7 +64,7 @@ public class ScriptController {
     }
 
     private ScriptConfiguration buildScriptConfiguration(ScriptConfigurationDTO scriptConfigurationDTO) {
-        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType);
+        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType, scriptConfigurationDTO.accessToken);
     }
 
     @GET
@@ -95,9 +96,20 @@ public class ScriptController {
     @GET
     @AuthenticationNotRequired
     @Path("/executions/{id}")
-    public Object getConfiguration(@PathParam("id") String id) {
+    public Object getConfiguration(@PathParam("id") String id, @Context UriInfo uriInfo) {
         ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
+        checkValidAuth(scriptConfiguration, uriInfo);
+
         return doExecute(scriptConfiguration);
+    }
+
+    private void checkValidAuth(ScriptConfiguration scriptConfiguration, UriInfo uriInfo) {
+        if (scriptConfiguration.accessToken == null)
+            return;
+
+        String token = uriInfo.getQueryParameters().getFirst("token");
+        if (token == null || !token.equals(scriptConfiguration.accessToken))
+            throw new WebApplicationException(401);
     }
 
     private ScriptConfiguration findConfigurationOr404(@PathParam("id") String id) {
@@ -114,6 +126,7 @@ public class ScriptController {
         scriptConfigurationDTO.id = scriptConfiguration.id;
         scriptConfigurationDTO.script = scriptConfiguration.processingScript;
         scriptConfigurationDTO.contentType = scriptConfiguration.contentType;
+        scriptConfigurationDTO.accessToken = scriptConfiguration.accessToken;
 
         return scriptConfigurationDTO;
     }
