@@ -60,7 +60,7 @@ public class ScriptExecutor {
         public Object require(String moduleName) {
             JsModule module = jsModules.get(moduleName);
             if (module == null)
-                throw new ScriptExecutionException("Module not found");
+                throw new ScriptExecutionException(String.format("Module '%s' not found", moduleName));
 
             return module;
         }
