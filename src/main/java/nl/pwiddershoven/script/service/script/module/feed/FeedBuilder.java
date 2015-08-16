@@ -53,12 +53,14 @@ public class FeedBuilder {
         return new FeedEntry();
     }
 
-    public void filterEntries(Predicate<FeedEntry> predicate) {
+    public FeedBuilder filterEntries(Predicate<FeedEntry> predicate) {
         entries = entries.stream()
                 .map(FeedEntry::new)
                 .filter(predicate)
                 .map(e -> e.entry)
                 .collect(Collectors.toList());
+
+        return this;
     }
 
     public String build(String feedType) {
