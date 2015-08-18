@@ -40,7 +40,11 @@ public class ScriptExecutor {
             ScriptContext ctx = new SimpleScriptContext();
 
             // create a fresh new scope for each script
-            ctx.setBindings(jsEngine.createBindings(), ScriptContext.ENGINE_SCOPE);
+            Bindings bindings = jsEngine.createBindings();
+            bindings.put("quit", null);
+            bindings.put("exit", null);
+
+            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
             // inherit the default global scope, so require is globally available
             ctx.setBindings(jsEngine.getBindings(ScriptContext.GLOBAL_SCOPE), ScriptContext.GLOBAL_SCOPE);
