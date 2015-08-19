@@ -19,6 +19,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.api.client.repackaged.com.google.common.base.Strings;
+
 @Component
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/")
@@ -64,7 +66,8 @@ public class ScriptController {
     }
 
     private ScriptConfiguration buildScriptConfiguration(ScriptConfigurationDTO scriptConfigurationDTO) {
-        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType, scriptConfigurationDTO.accessToken);
+        String accessToken = Strings.isNullOrEmpty(scriptConfigurationDTO.accessToken) ? null : scriptConfigurationDTO.accessToken;
+        return new ScriptConfiguration(scriptConfigurationDTO.script, scriptConfigurationDTO.contentType, accessToken);
     }
 
     @GET
