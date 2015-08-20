@@ -67,7 +67,7 @@ public class ScriptExecutor {
             if (moduleProvider == null)
                 throw new ScriptExecutionException(String.format("Module '%s' not found", moduleName));
 
-            return moduleProvider.module();
+            return moduleProvider.module(this);
         }
     }
 
