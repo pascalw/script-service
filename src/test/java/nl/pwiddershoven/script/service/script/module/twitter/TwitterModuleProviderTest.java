@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import twitter4j.Twitter;
 
-public class TwitterModuleTest {
+public class TwitterModuleProviderTest {
     private TwitterModuleProvider.TwitterModule twitterModule = new TwitterModuleProvider().module(null);
 
     @Test

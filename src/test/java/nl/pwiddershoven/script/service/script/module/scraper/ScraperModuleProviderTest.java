@@ -9,7 +9,7 @@ import nl.pwiddershoven.script.service.PageFetcher;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 
-public class ScraperModuleTest {
+public class ScraperModuleProviderTest {
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
     private ScraperModuleProvider.ScraperModule scraperModule = new ScraperModuleProvider(mockPageFetcher).module(null);
 

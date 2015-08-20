@@ -17,7 +17,7 @@ import org.springframework.util.StreamUtils;
 
 import com.rometools.rome.io.FeedException;
 
-public class FeedModuleTest {
+public class FeedModuleProviderTest {
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
     private FeedModuleProvider.FeedModule feedModule = new FeedModuleProvider(mockPageFetcher).module(null);
 

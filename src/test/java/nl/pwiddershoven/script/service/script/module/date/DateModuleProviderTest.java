@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-public class DateModuleTest {
+public class DateModuleProviderTest {
     private DateModuleProvider.DateModule dateModule = new DateModuleProvider().module(null);
 
     @Test
