@@ -7,7 +7,8 @@ import java.util.Map;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.*;
 
-import nl.pwiddershoven.script.service.script.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.JsContext;
+import nl.pwiddershoven.script.service.script.module.JsModule;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
 import org.springframework.stereotype.Component;
@@ -20,8 +21,8 @@ public class RequestModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public JsModule module(ScriptExecutor.JsContext jsContext) {
-        ContainerRequestContext request = jsContext.request;
+    public JsModule module(JsContext jsContext) {
+        ContainerRequestContext request = jsContext.getAttribute("request", ContainerRequestContext.class);
         return new RequestModule(request);
     }
 

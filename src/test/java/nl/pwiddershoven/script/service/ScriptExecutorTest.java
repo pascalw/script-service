@@ -2,9 +2,9 @@ package nl.pwiddershoven.script.service;
 
 import static org.junit.Assert.assertEquals;
 
+import nl.pwiddershoven.script.service.script.JsContext;
 import nl.pwiddershoven.script.service.script.ScriptExecutor;
-import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
-import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
+import nl.pwiddershoven.script.service.script.module.*;
 
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class ScriptExecutorTest {
         }
 
         @Override
-        public JsModule module(ScriptExecutor.JsContext jsContext) {
+        public JsModule module(JsContext jsContext) {
             return new MyModule();
         }
     }

@@ -3,7 +3,9 @@ package nl.pwiddershoven.script.service.script.module.date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import nl.pwiddershoven.script.service.script.JsContext;
 import nl.pwiddershoven.script.service.script.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.module.JsModule;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
 import org.springframework.stereotype.Component;
@@ -25,7 +27,7 @@ public class DateModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public DateModule module(ScriptExecutor.JsContext jsContext) {
+    public DateModule module(JsContext jsContext) {
         return module;
     }
 }

@@ -8,8 +8,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
-import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
-import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
+import nl.pwiddershoven.script.service.script.module.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,19 +54,26 @@ public class ScriptExecutor {
         }
     }
 
-    public class JsContext {
-        public final ContainerRequestContext request;
+    public class JsContext implements nl.pwiddershoven.script.service.script.JsContext {
+        private final Map<String, Object> attributes = new HashMap<>();
 
         public JsContext(ContainerRequestContext requestContext) {
-            this.request = requestContext;
+            attributes.put("request", requestContext);
         }
 
-        public Object require(String moduleName) {
+        @Override
+        public JsModule require(String moduleName) {
             JsModuleProvider moduleProvider = jsModuleProviders.get(moduleName);
             if (moduleProvider == null)
                 throw new ScriptExecutionException(String.format("Module '%s' not found", moduleName));
 
             return moduleProvider.module(this);
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public <T> T getAttribute(String attributeName, Class<T> attributeClass) {
+            return (T) attributes.get(attributeName);
         }
     }
 

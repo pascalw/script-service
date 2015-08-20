@@ -3,7 +3,8 @@ package nl.pwiddershoven.script.service.script.module.feed;
 import java.io.StringReader;
 
 import nl.pwiddershoven.script.service.PageFetcher;
-import nl.pwiddershoven.script.service.script.ScriptExecutor;
+import nl.pwiddershoven.script.service.script.JsContext;
+import nl.pwiddershoven.script.service.script.module.JsModule;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class FeedModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public FeedModule module(ScriptExecutor.JsContext jsContext) {
+    public FeedModule module(JsContext jsContext) {
         return module;
     }
 
