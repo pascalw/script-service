@@ -1,6 +1,6 @@
 var scraper = require('scraper');
 var feed    = require('feed');
-var date    = require('date').parser('yyyy/MM/dd', 'en_US');
+var date    = require('date').parser('yyyy/MM/dd', 'en-US');
 
 var url = 'https://jenkins-ci.org/changelog';
 var page = scraper.scrape(url);
