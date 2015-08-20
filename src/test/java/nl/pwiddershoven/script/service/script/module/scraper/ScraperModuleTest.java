@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class ScraperModuleTest {
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
-    private ScraperModuleProvider.ScraperModule scraperModule = new ScraperModuleProvider(mockPageFetcher).module();
+    private ScraperModuleProvider.ScraperModule scraperModule = new ScraperModuleProvider(mockPageFetcher).module(null);
 
     @Test
     public void returns_jsoup_document_for_requested_url() {

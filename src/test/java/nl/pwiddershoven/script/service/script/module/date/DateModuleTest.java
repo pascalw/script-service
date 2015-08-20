@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 public class DateModuleTest {
-    private DateModuleProvider.DateModule dateModule = new DateModuleProvider().module();
+    private DateModuleProvider.DateModule dateModule = new DateModuleProvider().module(null);
 
     @Test
     public void getParser_builds_SimpleDateFormat_with_provided_pattern_and_locale() {

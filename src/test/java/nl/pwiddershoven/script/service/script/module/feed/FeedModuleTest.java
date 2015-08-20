@@ -19,7 +19,7 @@ import com.rometools.rome.io.FeedException;
 
 public class FeedModuleTest {
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
-    private FeedModuleProvider.FeedModule feedModule = new FeedModuleProvider(mockPageFetcher).module();
+    private FeedModuleProvider.FeedModule feedModule = new FeedModuleProvider(mockPageFetcher).module(null);
 
     @Test
     public void newFeed_returnsEmptyFeedBuilder() {

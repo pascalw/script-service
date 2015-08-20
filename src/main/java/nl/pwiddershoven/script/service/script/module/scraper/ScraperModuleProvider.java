@@ -1,6 +1,7 @@
 package nl.pwiddershoven.script.service.script.module.scraper;
 
 import nl.pwiddershoven.script.service.PageFetcher;
+import nl.pwiddershoven.script.service.script.ScriptExecutor;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
 import org.jsoup.Jsoup;
@@ -37,7 +38,7 @@ public class ScraperModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public ScraperModule module() {
+    public ScraperModule module(ScriptExecutor.JsContext jsContext) {
         return module;
     }
 

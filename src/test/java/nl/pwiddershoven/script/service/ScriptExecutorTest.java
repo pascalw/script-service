@@ -24,7 +24,7 @@ public class ScriptExecutorTest {
         }
 
         @Override
-        public JsModule module() {
+        public JsModule module(ScriptExecutor.JsContext jsContext) {
             return new MyModule();
         }
     }

@@ -1,5 +1,6 @@
 package nl.pwiddershoven.script.service.script.module.twitter;
 
+import nl.pwiddershoven.script.service.script.ScriptExecutor;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
 import org.springframework.stereotype.Component;
@@ -39,7 +40,7 @@ public class TwitterModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public TwitterModule module() {
+    public TwitterModule module(ScriptExecutor.JsContext jsContext) {
         return module;
     }
 
