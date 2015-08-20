@@ -21,7 +21,7 @@ public class RequestModuleProvider implements JsModuleProvider {
     }
 
     @Override
-    public JsModule module(JsContext jsContext) {
+    public RequestModule module(JsContext jsContext) {
         ContainerRequestContext request = jsContext.getAttribute("request", ContainerRequestContext.class);
         return new RequestModule(request);
     }
