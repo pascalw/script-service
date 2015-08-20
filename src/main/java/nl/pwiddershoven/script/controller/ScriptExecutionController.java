@@ -26,7 +26,7 @@ public class ScriptExecutionController {
     private ScriptConfigurationRepository scriptConfigurationRepository;
 
     @POST
-    @Path("/execute")
+    @Path("/executions")
     public Response execute(ScriptConfigurationDTO scriptConfigurationDTO, @Context ContainerRequestContext requestContext) {
         ScriptConfiguration scriptConfiguration = scriptConfigurationDTO.toScriptConfiguration();
         return doExecute(scriptConfiguration, requestContext);
@@ -35,11 +35,36 @@ public class ScriptExecutionController {
     @GET
     @AuthenticationNotRequired
     @Path("/executions/{id}")
-    public Object getConfiguration(@PathParam("id") String id, @Context ContainerRequestContext requestContext, @Context UriInfo uriInfo) {
-        ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
-        checkValidAuth(scriptConfiguration, uriInfo);
+    public Object getExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
+        return doExecuteWithAuthCheck(id, requestContext);
+    }
 
-        return doExecute(scriptConfiguration, requestContext);
+    @POST
+    @AuthenticationNotRequired
+    @Path("/executions/{id}")
+    public Object postExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
+        return doExecuteWithAuthCheck(id, requestContext);
+    }
+
+    @PUT
+    @AuthenticationNotRequired
+    @Path("/executions/{id}")
+    public Object putExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
+        return doExecuteWithAuthCheck(id, requestContext);
+    }
+
+    @PATCH
+    @AuthenticationNotRequired
+    @Path("/executions/{id}")
+    public Object patchExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
+        return doExecuteWithAuthCheck(id, requestContext);
+    }
+
+    @DELETE
+    @AuthenticationNotRequired
+    @Path("/executions/{id}")
+    public Object deleteExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
+        return doExecuteWithAuthCheck(id, requestContext);
     }
 
     private void checkValidAuth(ScriptConfiguration scriptConfiguration, UriInfo uriInfo) {
@@ -57,6 +82,13 @@ public class ScriptExecutionController {
         if (scriptConfiguration == null)
             throw new WebApplicationException(404);
         return scriptConfiguration;
+    }
+
+    private Response doExecuteWithAuthCheck(String id, ContainerRequestContext requestContext) {
+        ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
+        checkValidAuth(scriptConfiguration, requestContext.getUriInfo());
+
+        return doExecute(scriptConfiguration, requestContext);
     }
 
     private Response doExecute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {

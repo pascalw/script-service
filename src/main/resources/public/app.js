@@ -85,7 +85,7 @@
           type: 'POST',
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
-          url: '/execute',
+          url: '/executions',
           data: JSON.stringify(json),
           dataType: 'text',
           success: function(data) {
