@@ -8,7 +8,7 @@ import org.junit.Test;
 import twitter4j.Twitter;
 
 public class TwitterModuleTest {
-    private TwitterModule twitterModule = new TwitterModule();
+    private TwitterModuleProvider.TwitterModule twitterModule = new TwitterModuleProvider().module();
 
     @Test
     public void getClient_produces_twitter_client_with_provided_configuration() {

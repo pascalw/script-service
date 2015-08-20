@@ -3,7 +3,7 @@ package nl.pwiddershoven.script.service;
 import static org.junit.Assert.assertEquals;
 
 import nl.pwiddershoven.script.service.script.ScriptExecutor;
-import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
 
 import org.junit.Test;
@@ -11,14 +11,21 @@ import org.junit.Test;
 import com.google.common.collect.Sets;
 
 public class ScriptExecutorTest {
-    public class MyModule implements JsModule {
+    public static class MyModuleProvider implements JsModuleProvider {
+        public static class MyModule implements JsModule {
+            public String hello() {
+                return "world";
+            }
+        }
+
         @Override
         public String name() {
             return "myModule";
         }
 
-        public String hello() {
-            return "world";
+        @Override
+        public JsModule module() {
+            return new MyModule();
         }
     }
 
@@ -32,7 +39,7 @@ public class ScriptExecutorTest {
 
     @Test
     public void loads_and_exposes_modules_by_name() {
-        scriptExecutor.setJsModules(Sets.newHashSet(new MyModule()));
+        scriptExecutor.setJsModuleProviders(Sets.newHashSet(new MyModuleProvider()));
 
         ScriptConfiguration configuration = buildConfiguration("return require('myModule').hello();");
         assertEquals("world", scriptExecutor.execute(configuration));

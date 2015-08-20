@@ -7,7 +7,7 @@ import javax.script.*;
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
-import nl.pwiddershoven.script.service.script.module.JsModule;
+import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class ScriptExecutor {
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private ScriptEngine jsEngine;
-    private Map<String, JsModule> jsModules = new HashMap<>();
+    private Map<String, JsModuleProvider> jsModuleProviders = new HashMap<>();
 
     public ScriptExecutor() {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
@@ -62,18 +62,18 @@ public class ScriptExecutor {
 
     public class JsContext {
         public Object require(String moduleName) {
-            JsModule module = jsModules.get(moduleName);
-            if (module == null)
+            JsModuleProvider moduleProvider = jsModuleProviders.get(moduleName);
+            if (moduleProvider == null)
                 throw new ScriptExecutionException(String.format("Module '%s' not found", moduleName));
 
-            return module;
+            return moduleProvider.module();
         }
     }
 
     @Autowired
-    public void setJsModules(Set<JsModule> jsModules) {
-        for (JsModule module : jsModules) {
-            this.jsModules.put(module.name(), module);
+    public void setJsModuleProviders(Set<JsModuleProvider> jsModuleProviders) {
+        for (JsModuleProvider moduleProvider : jsModuleProviders) {
+            this.jsModuleProviders.put(moduleProvider.name(), moduleProvider);
         }
     }
 }

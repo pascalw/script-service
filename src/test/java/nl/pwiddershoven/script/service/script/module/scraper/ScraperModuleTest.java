@@ -1,4 +1,4 @@
-package nl.pwiddershoven.script.service.script.module.scrape;
+package nl.pwiddershoven.script.service.script.module.scraper;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class ScraperModuleTest {
     private PageFetcher mockPageFetcher = mock(PageFetcher.class);
-    private ScraperModule scraperModule = new ScraperModule(mockPageFetcher);
+    private ScraperModuleProvider.ScraperModule scraperModule = new ScraperModuleProvider(mockPageFetcher).module();
 
     @Test
     public void returns_jsoup_document_for_requested_url() {
