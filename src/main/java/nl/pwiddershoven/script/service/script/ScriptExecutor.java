@@ -3,12 +3,12 @@ package nl.pwiddershoven.script.service.script;
 import java.util.*;
 
 import javax.script.*;
+import javax.ws.rs.container.ContainerRequestContext;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.script.service.ScriptConfiguration;
-import nl.pwiddershoven.script.service.script.module.JsModule;
-import nl.pwiddershoven.script.service.script.module.ScriptExecutionException;
+import nl.pwiddershoven.script.service.script.module.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,36 +18,30 @@ public class ScriptExecutor {
     private static final String SCRIPT_WRAPPER = "(function() { %s; })()";
 
     private ScriptEngine jsEngine;
-    private Map<String, JsModule> jsModules = new HashMap<>();
+    private Map<String, JsModuleProvider> jsModuleProviders = new HashMap<>();
 
     public ScriptExecutor() {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
-
-        try {
-            Bindings bindings = jsEngine.createBindings();
-            jsEngine.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
-
-            bindings.put("__ctx", new JsContext());
-            bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };"));
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Object execute(ScriptConfiguration scriptConfiguration) {
+        return execute(scriptConfiguration, null);
+    }
+
+    public Object execute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {
         try {
+            // create a fresh new scope for each script
             ScriptContext ctx = new SimpleScriptContext();
 
-            // create a fresh new scope for each script
             Bindings bindings = jsEngine.createBindings();
             bindings.put("quit", null);
             bindings.put("exit", null);
 
-            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+            bindings.put("__ctx", new JsContext(requestContext));
+            bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };", ctx));
 
-            // inherit the default global scope, so require is globally available
-            ctx.setBindings(jsEngine.getBindings(ScriptContext.GLOBAL_SCOPE), ScriptContext.GLOBAL_SCOPE);
+            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
             Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scriptConfiguration.processingScript), ctx);
 
@@ -60,20 +54,33 @@ public class ScriptExecutor {
         }
     }
 
-    public class JsContext {
-        public Object require(String moduleName) {
-            JsModule module = jsModules.get(moduleName);
-            if (module == null)
+    public class JsContext implements nl.pwiddershoven.script.service.script.JsContext {
+        private final Map<String, Object> attributes = new HashMap<>();
+
+        public JsContext(ContainerRequestContext requestContext) {
+            attributes.put("request", requestContext);
+        }
+
+        @Override
+        public JsModule require(String moduleName) {
+            JsModuleProvider moduleProvider = jsModuleProviders.get(moduleName);
+            if (moduleProvider == null)
                 throw new ScriptExecutionException(String.format("Module '%s' not found", moduleName));
 
-            return module;
+            return moduleProvider.module(this);
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public <T> T getAttribute(String attributeName, Class<T> attributeClass) {
+            return (T) attributes.get(attributeName);
         }
     }
 
     @Autowired
-    public void setJsModules(Set<JsModule> jsModules) {
-        for (JsModule module : jsModules) {
-            this.jsModules.put(module.name(), module);
+    public void setJsModuleProviders(Set<JsModuleProvider> jsModuleProviders) {
+        for (JsModuleProvider moduleProvider : jsModuleProviders) {
+            this.jsModuleProviders.put(moduleProvider.name(), moduleProvider);
         }
     }
 }

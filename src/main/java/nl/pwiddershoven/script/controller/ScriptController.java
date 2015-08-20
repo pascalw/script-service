@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.*;
 
 import nl.pwiddershoven.script.config.AuthenticationNotRequired;
@@ -47,9 +48,9 @@ public class ScriptController {
 
     @POST
     @Path("/execute")
-    public Response execute(ScriptConfigurationDTO scriptConfigurationDTO) {
+    public Response execute(ScriptConfigurationDTO scriptConfigurationDTO, @Context ContainerRequestContext requestContext) {
         ScriptConfiguration scriptConfiguration = buildScriptConfiguration(scriptConfigurationDTO);
-        return doExecute(scriptConfiguration);
+        return doExecute(scriptConfiguration, requestContext);
     }
 
     @POST
@@ -99,11 +100,11 @@ public class ScriptController {
     @GET
     @AuthenticationNotRequired
     @Path("/executions/{id}")
-    public Object getConfiguration(@PathParam("id") String id, @Context UriInfo uriInfo) {
+    public Object getConfiguration(@PathParam("id") String id, @Context ContainerRequestContext requestContext, @Context UriInfo uriInfo) {
         ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
         checkValidAuth(scriptConfiguration, uriInfo);
 
-        return doExecute(scriptConfiguration);
+        return doExecute(scriptConfiguration, requestContext);
     }
 
     private void checkValidAuth(ScriptConfiguration scriptConfiguration, UriInfo uriInfo) {
@@ -134,9 +135,9 @@ public class ScriptController {
         return scriptConfigurationDTO;
     }
 
-    private Response doExecute(ScriptConfiguration scriptConfiguration) {
+    private Response doExecute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {
         long start = System.currentTimeMillis();
-        Object result = scriptExecutor.execute(scriptConfiguration);
+        Object result = scriptExecutor.execute(scriptConfiguration, requestContext);
         long end = System.currentTimeMillis();
 
         logger.info("Processing took " + (end - start));
