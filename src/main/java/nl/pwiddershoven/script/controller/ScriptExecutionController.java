@@ -98,9 +98,21 @@ public class ScriptExecutionController {
 
         logger.info("Processing took " + (end - start));
 
+        if (result instanceof Response)
+            return ensureMediaType((Response) result, scriptConfiguration);
+
         return Response.ok()
                 .type(scriptConfiguration.contentType)
                 .entity(result)
                 .build();
+    }
+
+    private Response ensureMediaType(Response response, ScriptConfiguration scriptConfiguration) {
+        if (response.getMediaType() == null)
+            response = Response.fromResponse(response)
+                    .type(scriptConfiguration.contentType)
+                    .build();
+
+        return response;
     }
 }
