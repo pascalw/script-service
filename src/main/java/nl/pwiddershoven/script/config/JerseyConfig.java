@@ -1,6 +1,7 @@
 package nl.pwiddershoven.script.config;
 
-import nl.pwiddershoven.script.controller.ScriptController;
+import nl.pwiddershoven.script.controller.ScriptConfigurationController;
+import nl.pwiddershoven.script.controller.ScriptExecutionController;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -18,6 +19,7 @@ public class JerseyConfig extends ResourceConfig {
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
         property(ServletProperties.FILTER_FORWARD_ON_404, true);
 
-        register(ScriptController.class);
+        register(ScriptExecutionController.class);
+        register(ScriptConfigurationController.class);
     }
 }
