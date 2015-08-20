@@ -3,6 +3,7 @@ package nl.pwiddershoven.script.service.script;
 import java.util.*;
 
 import javax.script.*;
+import javax.ws.rs.container.ContainerRequestContext;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -23,31 +24,25 @@ public class ScriptExecutor {
     public ScriptExecutor() {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
-
-        try {
-            Bindings bindings = jsEngine.createBindings();
-            jsEngine.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
-
-            bindings.put("__ctx", new JsContext());
-            bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };"));
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Object execute(ScriptConfiguration scriptConfiguration) {
+        return execute(scriptConfiguration, null);
+    }
+
+    public Object execute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {
         try {
+            // create a fresh new scope for each script
             ScriptContext ctx = new SimpleScriptContext();
 
-            // create a fresh new scope for each script
             Bindings bindings = jsEngine.createBindings();
             bindings.put("quit", null);
             bindings.put("exit", null);
 
-            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+            bindings.put("__ctx", new JsContext(requestContext));
+            bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };", ctx));
 
-            // inherit the default global scope, so require is globally available
-            ctx.setBindings(jsEngine.getBindings(ScriptContext.GLOBAL_SCOPE), ScriptContext.GLOBAL_SCOPE);
+            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
             Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scriptConfiguration.processingScript), ctx);
 
@@ -61,6 +56,12 @@ public class ScriptExecutor {
     }
 
     public class JsContext {
+        public final ContainerRequestContext request;
+
+        public JsContext(ContainerRequestContext requestContext) {
+            this.request = requestContext;
+        }
+
         public Object require(String moduleName) {
             JsModuleProvider moduleProvider = jsModuleProviders.get(moduleName);
             if (moduleProvider == null)
