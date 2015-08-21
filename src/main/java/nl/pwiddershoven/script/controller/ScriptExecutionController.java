@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Consumes(MediaType.APPLICATION_JSON)
 @Path("/")
 public class ScriptExecutionController {
     private final Logger logger = Logger.getLogger(ScriptExecutionController.class);
