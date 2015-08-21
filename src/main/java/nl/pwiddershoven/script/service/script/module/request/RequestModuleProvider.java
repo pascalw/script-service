@@ -11,6 +11,7 @@ import nl.pwiddershoven.script.service.script.JsContext;
 import nl.pwiddershoven.script.service.script.module.JsModule;
 import nl.pwiddershoven.script.service.script.module.JsModuleProvider;
 
+import org.glassfish.jersey.server.internal.InternalServerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -79,6 +80,11 @@ public class RequestModuleProvider implements JsModuleProvider {
 
         public Map<String, Object> getEntityJSON() throws IOException {
             return objectMapper.readValue(request.getEntityStream(), new TypeReference<HashMap<String, Object>>() {});
+        }
+
+        public MultivaluedMap<String, String> getEntityForm() {
+            // this is Jersey specific, there doesn't seem to be a JAX-RS generic way to do this.
+            return ((Form) request.getProperty(InternalServerProperties.FORM_DECODED_PROPERTY)).asMap();
         }
     }
 
