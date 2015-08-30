@@ -1,7 +1,7 @@
 package nl.pwiddershoven.scriptor.config;
 
-import nl.pwiddershoven.scriptor.controller.ScriptConfigurationController;
-import nl.pwiddershoven.scriptor.controller.ScriptExecutionController;
+import nl.pwiddershoven.scriptor.controller.EndpointConfigurationController;
+import nl.pwiddershoven.scriptor.controller.EndpointController;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -19,7 +19,7 @@ public class JerseyConfig extends ResourceConfig {
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
         property(ServletProperties.FILTER_STATIC_CONTENT_REGEX, "/.*(html|js)$");
 
-        register(ScriptExecutionController.class);
-        register(ScriptConfigurationController.class);
+        register(EndpointController.class);
+        register(EndpointConfigurationController.class);
     }
 }

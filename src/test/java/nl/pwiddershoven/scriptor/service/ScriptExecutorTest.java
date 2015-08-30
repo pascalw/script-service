@@ -33,31 +33,23 @@ public class ScriptExecutorTest {
 
     @Test
     public void executes_scripts() {
-        ScriptConfiguration configuration = buildConfiguration("return 'Hello, world!';");
-        assertEquals("Hello, world!", scriptExecutor.execute(configuration));
+        assertEquals("Hello, world!", scriptExecutor.execute("return 'Hello, world!';"));
     }
 
     @Test
     public void loads_and_exposes_modules_by_name() {
         scriptExecutor.setJsModuleProviders(Sets.newHashSet(new MyModuleProvider()));
 
-        ScriptConfiguration configuration = buildConfiguration("return require('myModule').hello();");
-        assertEquals("world", scriptExecutor.execute(configuration));
+        assertEquals("world", scriptExecutor.execute("return require('myModule').hello();"));
     }
 
     @Test(expected = ScriptExecutionException.class)
     public void throws_when_loading_unknown_module() {
-        ScriptConfiguration configuration = buildConfiguration("require('foobar');");
-        scriptExecutor.execute(configuration);
+        scriptExecutor.execute("require('foobar');");
     }
 
     @Test(expected = ScriptExecutionException.class)
     public void throws_on_script_execution_failure() {
-        ScriptConfiguration configuration = buildConfiguration("return doesNotExist;");
-        scriptExecutor.execute(configuration);
-    }
-
-    private ScriptConfiguration buildConfiguration(String script) {
-        return new ScriptConfiguration(script, "application/json", null);
+        scriptExecutor.execute("return doesNotExist;");
     }
 }

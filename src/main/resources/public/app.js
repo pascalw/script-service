@@ -85,7 +85,7 @@
           type: 'POST',
           dataType: 'json',
           contentType: 'application/json; charset=utf-8',
-          url: '/executions',
+          url: '/endpointPreview',
           data: JSON.stringify(json),
           dataType: 'text',
           success: function(data) {

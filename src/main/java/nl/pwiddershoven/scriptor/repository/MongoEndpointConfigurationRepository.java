@@ -3,7 +3,7 @@ package nl.pwiddershoven.scriptor.repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import nl.pwiddershoven.scriptor.service.ScriptConfiguration;
+import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -17,8 +17,8 @@ import com.mongodb.DBObject;
 
 @Primary
 @Component
-public class MongoScriptConfigurationRepository implements ScriptConfigurationRepository {
-    private static final String COLLECTION_NAME = "scriptConfigs";
+public class MongoEndpointConfigurationRepository implements EndpointConfigurationRepository {
+    private static final String COLLECTION_NAME = "endpointConfigurations";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -32,7 +32,7 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     }
 
     @Override
-    public List<ScriptConfiguration> findAll(int offset, int perPage) {
+    public List<EndpointConfiguration> findAll(int offset, int perPage) {
         Query query = new Query();
         query.skip(offset);
         query.limit(perPage);
@@ -41,24 +41,24 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
     }
 
     @Override
-    public ScriptConfiguration find(String id) {
+    public EndpointConfiguration find(String id) {
         return convert(mongoTemplate.findById(id, StorageObject.class, COLLECTION_NAME));
     }
 
     @Override
-    public String save(ScriptConfiguration scriptConfiguration) {
+    public String save(EndpointConfiguration endpointConfiguration) {
         StorageObject storageObject = new StorageObject();
-        storageObject.script = scriptConfiguration.processingScript;
-        storageObject.contentType = scriptConfiguration.contentType;
-        storageObject.accessToken = scriptConfiguration.accessToken;
+        storageObject.script = endpointConfiguration.processingScript;
+        storageObject.contentType = endpointConfiguration.contentType;
+        storageObject.accessToken = endpointConfiguration.accessToken;
 
         mongoTemplate.save(storageObject, COLLECTION_NAME);
         return storageObject.id;
     }
 
     @Override
-    public void update(String id, ScriptConfiguration scriptConfiguration) {
-        mongoTemplate.upsert(queryForId(id), createUpdate(id, scriptConfiguration), COLLECTION_NAME);
+    public void update(String id, EndpointConfiguration endpointConfiguration) {
+        mongoTemplate.upsert(queryForId(id), createUpdate(id, endpointConfiguration), COLLECTION_NAME);
     }
 
     @Override
@@ -70,23 +70,23 @@ public class MongoScriptConfigurationRepository implements ScriptConfigurationRe
         return new Query(Criteria.where("_id").is(id));
     }
 
-    private List<ScriptConfiguration> convert(List<StorageObject> storageObjects) {
+    private List<EndpointConfiguration> convert(List<StorageObject> storageObjects) {
         return storageObjects.stream().map(this::convert).collect(Collectors.toList());
     }
 
-    private ScriptConfiguration convert(StorageObject storageObject) {
+    private EndpointConfiguration convert(StorageObject storageObject) {
         if (storageObject == null)
             return null;
 
-        return new ScriptConfiguration(storageObject.id, storageObject.script, storageObject.contentType, storageObject.accessToken);
+        return new EndpointConfiguration(storageObject.id, storageObject.script, storageObject.contentType, storageObject.accessToken);
     }
 
-    private Update createUpdate(String id, ScriptConfiguration scriptConfiguration) {
+    private Update createUpdate(String id, EndpointConfiguration endpointConfiguration) {
         StorageObject storageObject = new StorageObject();
         storageObject.id = id;
-        storageObject.script = scriptConfiguration.processingScript;
-        storageObject.contentType = scriptConfiguration.contentType;
-        storageObject.accessToken = scriptConfiguration.accessToken;
+        storageObject.script = endpointConfiguration.processingScript;
+        storageObject.contentType = endpointConfiguration.contentType;
+        storageObject.accessToken = endpointConfiguration.accessToken;
 
         DBObject dbDoc = new BasicDBObject();
         mongoTemplate.getConverter().write(storageObject, dbDoc);

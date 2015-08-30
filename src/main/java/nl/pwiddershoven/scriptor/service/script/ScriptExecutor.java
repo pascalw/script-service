@@ -7,7 +7,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import nl.pwiddershoven.scriptor.service.ScriptConfiguration;
 import nl.pwiddershoven.scriptor.service.script.module.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,11 @@ public class ScriptExecutor {
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
     }
 
-    public Object execute(ScriptConfiguration scriptConfiguration) {
-        return execute(scriptConfiguration, null);
+    public Object execute(String script) {
+        return execute(script, null);
     }
 
-    public Object execute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {
+    public Object execute(String script, ContainerRequestContext requestContext) {
         try {
             // create a fresh new scope for each script
             ScriptContext ctx = new SimpleScriptContext();
@@ -43,7 +42,7 @@ public class ScriptExecutor {
 
             ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
-            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, scriptConfiguration.processingScript), ctx);
+            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, script), ctx);
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);

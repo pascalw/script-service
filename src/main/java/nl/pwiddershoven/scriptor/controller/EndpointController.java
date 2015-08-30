@@ -5,8 +5,8 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.*;
 
 import nl.pwiddershoven.scriptor.config.AuthenticationNotRequired;
-import nl.pwiddershoven.scriptor.repository.ScriptConfigurationRepository;
-import nl.pwiddershoven.scriptor.service.ScriptConfiguration;
+import nl.pwiddershoven.scriptor.repository.EndpointConfigurationRepository;
+import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 import nl.pwiddershoven.scriptor.service.script.ScriptExecutor;
 
 import org.apache.log4j.Logger;
@@ -15,101 +15,101 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Path("/")
-public class ScriptExecutionController {
-    private final Logger logger = Logger.getLogger(ScriptExecutionController.class);
+public class EndpointController {
+    private final Logger logger = Logger.getLogger(EndpointController.class);
 
     @Autowired
     private ScriptExecutor scriptExecutor;
 
     @Autowired
-    private ScriptConfigurationRepository scriptConfigurationRepository;
+    private EndpointConfigurationRepository endpointConfigurationRepository;
 
     @POST
-    @Path("/executions")
-    public Response execute(ScriptConfigurationDTO scriptConfigurationDTO, @Context ContainerRequestContext requestContext) {
-        ScriptConfiguration scriptConfiguration = scriptConfigurationDTO.toScriptConfiguration();
-        return doExecute(scriptConfiguration, requestContext);
+    @Path("/endpointPreview")
+    public Response execute(EndpointConfigurationDTO endpointConfigurationDTO, @Context ContainerRequestContext requestContext) {
+        EndpointConfiguration endpointConfiguration = endpointConfigurationDTO.toEndpointConfiguration();
+        return doExecute(endpointConfiguration, requestContext);
     }
 
     @GET
     @AuthenticationNotRequired
-    @Path("/executions/{id}")
+    @Path("/endpoints/{id}")
     public Object getExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
         return doExecuteWithAuthCheck(id, requestContext);
     }
 
     @POST
     @AuthenticationNotRequired
-    @Path("/executions/{id}")
+    @Path("/endpoints/{id}")
     public Object postExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
         return doExecuteWithAuthCheck(id, requestContext);
     }
 
     @PUT
     @AuthenticationNotRequired
-    @Path("/executions/{id}")
+    @Path("/endpoints/{id}")
     public Object putExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
         return doExecuteWithAuthCheck(id, requestContext);
     }
 
     @PATCH
     @AuthenticationNotRequired
-    @Path("/executions/{id}")
+    @Path("/endpoints/{id}")
     public Object patchExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
         return doExecuteWithAuthCheck(id, requestContext);
     }
 
     @DELETE
     @AuthenticationNotRequired
-    @Path("/executions/{id}")
+    @Path("/endpoints/{id}")
     public Object deleteExecuteById(@PathParam("id") String id, @Context ContainerRequestContext requestContext) {
         return doExecuteWithAuthCheck(id, requestContext);
     }
 
-    private void checkValidAuth(ScriptConfiguration scriptConfiguration, UriInfo uriInfo) {
-        if (scriptConfiguration.accessToken == null)
+    private void checkValidAuth(EndpointConfiguration endpointConfiguration, UriInfo uriInfo) {
+        if (endpointConfiguration.accessToken == null)
             return;
 
         String token = uriInfo.getQueryParameters().getFirst("token");
-        if (token == null || !token.equals(scriptConfiguration.accessToken))
+        if (token == null || !token.equals(endpointConfiguration.accessToken))
             throw new WebApplicationException(401);
     }
 
-    private ScriptConfiguration findConfigurationOr404(String id) {
-        ScriptConfiguration scriptConfiguration = scriptConfigurationRepository.find(id);
+    private EndpointConfiguration findConfigurationOr404(String id) {
+        EndpointConfiguration endpointConfiguration = endpointConfigurationRepository.find(id);
 
-        if (scriptConfiguration == null)
+        if (endpointConfiguration == null)
             throw new WebApplicationException(404);
-        return scriptConfiguration;
+        return endpointConfiguration;
     }
 
     private Response doExecuteWithAuthCheck(String id, ContainerRequestContext requestContext) {
-        ScriptConfiguration scriptConfiguration = findConfigurationOr404(id);
-        checkValidAuth(scriptConfiguration, requestContext.getUriInfo());
+        EndpointConfiguration endpointConfiguration = findConfigurationOr404(id);
+        checkValidAuth(endpointConfiguration, requestContext.getUriInfo());
 
-        return doExecute(scriptConfiguration, requestContext);
+        return doExecute(endpointConfiguration, requestContext);
     }
 
-    private Response doExecute(ScriptConfiguration scriptConfiguration, ContainerRequestContext requestContext) {
+    private Response doExecute(EndpointConfiguration endpointConfiguration, ContainerRequestContext requestContext) {
         long start = System.currentTimeMillis();
-        Object result = scriptExecutor.execute(scriptConfiguration, requestContext);
+        Object result = scriptExecutor.execute(endpointConfiguration.processingScript, requestContext);
         long end = System.currentTimeMillis();
 
         logger.info("Processing took " + (end - start));
 
         if (result instanceof Response)
-            return ensureMediaType((Response) result, scriptConfiguration);
+            return ensureMediaType((Response) result, endpointConfiguration);
 
         return Response.ok()
-                .type(scriptConfiguration.contentType)
+                .type(endpointConfiguration.contentType)
                 .entity(result)
                 .build();
     }
 
-    private Response ensureMediaType(Response response, ScriptConfiguration scriptConfiguration) {
+    private Response ensureMediaType(Response response, EndpointConfiguration endpointConfiguration) {
         if (response.getMediaType() == null)
             response = Response.fromResponse(response)
-                    .type(scriptConfiguration.contentType)
+                    .type(endpointConfiguration.contentType)
                     .build();
 
         return response;

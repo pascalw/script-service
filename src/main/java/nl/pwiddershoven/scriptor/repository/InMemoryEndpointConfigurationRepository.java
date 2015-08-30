@@ -3,17 +3,17 @@ package nl.pwiddershoven.scriptor.repository;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import nl.pwiddershoven.scriptor.service.ScriptConfiguration;
+import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class InMemoryScriptConfigurationRepository implements ScriptConfigurationRepository {
-    private final Map<String, ScriptConfiguration> storage = new HashMap<>();
+public class InMemoryEndpointConfigurationRepository implements EndpointConfigurationRepository {
+    private final Map<String, EndpointConfiguration> storage = new HashMap<>();
     private long nextId = 1;
 
     @Override
-    public List<ScriptConfiguration> findAll(int offset, int perPage) {
+    public List<EndpointConfiguration> findAll(int offset, int perPage) {
         return storage.values().stream()
                 .skip(offset)
                 .limit(perPage)
@@ -21,21 +21,21 @@ public class InMemoryScriptConfigurationRepository implements ScriptConfiguratio
     }
 
     @Override
-    public ScriptConfiguration find(String id) {
+    public EndpointConfiguration find(String id) {
         return storage.get(id);
     }
 
     @Override
-    public String save(ScriptConfiguration scriptConfiguration) {
+    public String save(EndpointConfiguration endpointConfiguration) {
         String id = "" + nextId();
-        storage.put(id, scriptConfiguration);
+        storage.put(id, endpointConfiguration);
 
         return id;
     }
 
     @Override
-    public void update(String id, ScriptConfiguration scriptConfiguration) {
-        storage.put(id, scriptConfiguration);
+    public void update(String id, EndpointConfiguration endpointConfiguration) {
+        storage.put(id, endpointConfiguration);
     }
 
     @Override

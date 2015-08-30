@@ -2,11 +2,11 @@ package nl.pwiddershoven.scriptor.controller;
 
 import javax.validation.constraints.NotNull;
 
-import nl.pwiddershoven.scriptor.service.ScriptConfiguration;
+import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 
 import com.google.common.base.Strings;
 
-public class ScriptConfigurationDTO {
+public class EndpointConfigurationDTO {
     public String id;
 
     @NotNull
@@ -17,8 +17,8 @@ public class ScriptConfigurationDTO {
 
     public String accessToken;
 
-    ScriptConfiguration toScriptConfiguration() {
+    EndpointConfiguration toEndpointConfiguration() {
         String accessToken = Strings.isNullOrEmpty(this.accessToken) ? null : this.accessToken;
-        return new ScriptConfiguration(script, contentType, accessToken);
+        return new EndpointConfiguration(script, contentType, accessToken);
     }
 }
