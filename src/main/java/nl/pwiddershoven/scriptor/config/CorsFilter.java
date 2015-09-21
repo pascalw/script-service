@@ -34,6 +34,8 @@ public class CorsFilter extends OncePerRequestFilter {
             if (isCORSPreflightRequest(request)) {
                 response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, Joiner.on(",").join(allowedMethods));
                 response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, Joiner.on(",").join(allowedHeaders));
+
+                return; // make sure we return 200 OK
             }
         }
 
