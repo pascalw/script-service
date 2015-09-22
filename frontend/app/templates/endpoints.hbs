@@ -1,0 +1,12 @@
+<div id="endpoints">
+
+  {{#each model as |endpoint|}}
+    {{#endpoint-li endpoint=endpoint}}
+    {{/endpoint-li}}
+  {{/each}}
+
+</div>
+
+<div id="active-endpoint">
+  {{outlet}}
+</div>

@@ -1,0 +1,85 @@
+$header-height: 50px;
+$default-padding: 20px;
+
+html, body, #app-view, #main {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #f1f0f0;
+  font-family: 'Open Sans', serif;
+}
+
+#header {
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  background: #f44336;
+  padding: 15px;
+  box-sizing: border-box;
+  color: #fff;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+}
+
+#main {
+  display: flex;
+  padding-top: $header-height;
+}
+
+#endpoints {
+  border-right: 1px solid #e6e6e6;
+  width: 25%;
+  max-width: 250px;
+  min-width: 150px;
+
+  article {
+    padding: $default-padding/2 $default-padding;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}
+
+#active-endpoint {
+  flex: 1;
+  padding: $default-padding;
+
+  label {
+    display: block;
+  }
+
+  .content-type {
+    display: inline-block;
+    color: white;
+    background: black;
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
+
+  .editor {
+    width: 100%;
+    height: 500px;
+    margin-top: 10px;
+  }
+
+  .delete {
+    float: right;
+  }
+}

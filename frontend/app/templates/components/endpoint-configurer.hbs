@@ -1,0 +1,23 @@
+<form>
+  {{# unless model.isNew }}
+    <button class="delete" {{action "delete" model}}>Delete</button>
+  {{/ unless }}
+
+  {{# if model.isNew }}
+    <label>id</label>
+    {{ input type="text" value=model.id }}
+
+    <label>Content type</label>
+    {{ input type="text" value=model.contentType }}
+  {{ else }}
+    <label>{{ model.id }} <span class="content-type">{{ model.contentType }}</span></label>
+  {{/ if }}
+
+  <div class="editor">{{ model.script }}</div>
+
+  {{# if model.isNew }}
+    <button {{action "saveOrCreate" model}}>Create</button>
+  {{ else }}
+    <button {{action "saveOrCreate" model}}>Save</button>
+  {{/ if }}
+</form>
