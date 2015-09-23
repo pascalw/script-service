@@ -2,6 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    return this.store.query('config', { perPage: 100 });
+    return this.store.query('endpoint', { perPage: 100 });
   }
 });
