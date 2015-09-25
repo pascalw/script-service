@@ -1,10 +1,12 @@
 <div id="endpoints">
+  {{#link-to 'endpoints.new' class="new-endpoint"}}
+    <button>New endpoint</button>
+  {{/link-to}}
 
   {{#each model as |endpoint|}}
     {{#endpoint-li endpoint=endpoint}}
     {{/endpoint-li}}
   {{/each}}
-
 </div>
 
 <div id="active-endpoint">

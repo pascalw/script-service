@@ -25,10 +25,11 @@ export default Ember.Component.extend({
       // that incorrectly since upgrading to ember-data 2.1.0-beta3 which include this fix doesn't fix my problem :(
       config._internalModel.id = config.id;
 
-      config.save();
+      this.sendAction('save', config);
     },
     delete(config) {
-      this.sendAction('delete', config);
+      if(window.confirm('Are you sure you want to delete this item?'))
+        this.sendAction('delete', config);
     }
   }
 });

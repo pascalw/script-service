@@ -1,23 +1,26 @@
-<form>
-  {{# unless model.isNew }}
-    <button class="delete" {{action "delete" model}}>Delete</button>
-  {{/ unless }}
+<div class="endpoint-configurer">
 
-  {{# if model.isNew }}
-    <label>id</label>
-    {{ input type="text" value=model.id }}
+  <form>
+    {{# unless model.isNew }}
+      <button class="delete" {{action "delete" model}}>Delete</button>
+    {{/ unless }}
 
-    <label>Content type</label>
-    {{ input type="text" value=model.contentType }}
-  {{ else }}
-    <label>{{ model.id }} <span class="content-type">{{ model.contentType }}</span></label>
-  {{/ if }}
+    {{# unless model.isNew }}
+      <label>{{ model.id }}</label>
+    {{ else }}
+      {{ input type="text" placeholder="Slug" value=model.id }}
+    {{/ unless }}
 
-  <div class="editor">{{ model.script }}</div>
+    {{ input type="text" placeholder="Content Type" value=model.contentType }}
+    {{ input type="text" placeholder="Access token" value=model.accessToken }}
 
-  {{# if model.isNew }}
-    <button {{action "saveOrCreate" model}}>Create</button>
-  {{ else }}
-    <button {{action "saveOrCreate" model}}>Save</button>
-  {{/ if }}
-</form>
+    <div class="editor">{{ model.script }}</div>
+
+    {{# if model.isNew }}
+      <button {{action "saveOrCreate" model}}>Create</button>
+    {{ else }}
+      <button {{action "saveOrCreate" model}}>Save</button>
+    {{/ if }}
+  </form>
+
+</div>
