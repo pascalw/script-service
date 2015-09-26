@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('new');
   });
   this.route('endpoints', { path: '/' });
+  this.route('setup');
 });
 
 export default Router;

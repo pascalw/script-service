@@ -1,8 +1,9 @@
 import DS from 'ember-data';
+import Setup from '../services/setup';
 
 export default DS.RESTAdapter.extend({
-  host: localStorage.getItem('scriptor:api_host') || window.location.origin,
+  host: Setup.getScriptorHost() || window.location.origin,
   headers: {
-    'Authorization': 'token ' + localStorage.getItem('scriptor:api_key'),
+    'Authorization': 'token ' + Setup.getScriptorToken(),
   }
 });
