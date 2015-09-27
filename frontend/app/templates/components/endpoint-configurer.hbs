@@ -17,9 +17,9 @@
     <div class="editor">{{ model.script }}</div>
 
     {{# if model.isNew }}
-      <button {{action "saveOrCreate" model}}>Create</button>
+      <button {{action "create" model}}>Create</button>
     {{ else }}
-      <button {{action "saveOrCreate" model}}>Save</button>
+      <button {{action "save" model}}>Save</button>
     {{/ if }}
   </form>
 

@@ -19,7 +19,10 @@ export default Ember.Component.extend({
   }.observes('model'),
 
   actions: {
-    saveOrCreate(config) {
+    save(config) {
+      config.save();
+    },
+    create(config) {
       // HACK. Id's dynamically set don't seem to included in serialization by default.
       // According to https://github.com/emberjs/data/issues/3694 this is a bug, though I may understand
       // that incorrectly since upgrading to ember-data 2.1.0-beta3 which include this fix doesn't fix my problem :(
