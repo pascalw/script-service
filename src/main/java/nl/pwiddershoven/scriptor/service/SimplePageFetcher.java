@@ -3,6 +3,8 @@ package nl.pwiddershoven.scriptor.service;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -20,9 +22,19 @@ public class SimplePageFetcher implements PageFetcher {
 
     @Override
     public String fetch(String urlString) {
+        return fetch(urlString, Collections.emptyMap());
+    }
+
+    @Override
+    public String fetch(String urlString, Map<String, Object> headers) {
         long start = System.currentTimeMillis();
         try {
             HttpRequest request = httpRequestFactory.buildGetRequest(toUrl(urlString));
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.putAll(headers);
+            request.setHeaders(httpHeaders);
+
             return parseAsString(request.execute());
         } catch (Exception e) {
             throw new RuntimeException(e);
