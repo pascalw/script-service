@@ -3,16 +3,16 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, function() {
-      var editorEl = $(this.element).find('.editor');
+      var editorEl = Ember.$(this.element).find('.editor');
 
-      var editor = ace.edit(editorEl[0]);
+      var editor = window.ace.edit(editorEl[0]);
       editor.setTheme('ace/theme/tomorrow_night');
       editor.getSession().setMode('ace/mode/javascript');
 
       editor.setValue(this.model.get('script') || '', 1);
       editor.scrollToLine(0);
 
-      editor.on('change', (e) => {
+      editor.on('change', () => {
         this.model.set('script', editor.getValue());
       });
     });
@@ -28,8 +28,9 @@ export default Ember.Component.extend({
       this.sendAction('save', config);
     },
     delete(config) {
-      if(window.confirm('Are you sure you want to delete this item?'))
+      if(window.confirm('Are you sure you want to delete this item?')) {
         this.sendAction('delete', config);
+      }
     }
   }
 });

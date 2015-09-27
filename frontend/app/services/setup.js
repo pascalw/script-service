@@ -18,6 +18,6 @@ class Setup {
   setScriptorHost(host) {
     localStorage.setItem('scriptor:api_host', host);
   }
-};
+}
 
 export default new Setup();

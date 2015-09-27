@@ -5,8 +5,9 @@ export default Ember.Mixin.create({
   beforeModel(transition) {
     var superResult = this._super(transition);
 
-    if(! Setup.isComplete())
+    if(! Setup.isComplete()) {
       this.transitionTo('setup');
+    }
 
     return superResult;
   }

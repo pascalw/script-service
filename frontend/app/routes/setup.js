@@ -15,8 +15,9 @@ export default Ember.Route.extend({
     setup(config) {
       Setup.setScriptorToken(config.get('token'));
 
-      if(config.get('host'))
+      if(config.get('host')) {
         Setup.setScriptorHost(config.get('host'));
+      }
 
       this.transitionTo('/');
     }
