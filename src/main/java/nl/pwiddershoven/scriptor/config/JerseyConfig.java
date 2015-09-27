@@ -17,7 +17,7 @@ public class JerseyConfig extends ResourceConfig {
         register(AuthenticationFilter.class);
 
         property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
-        property(ServletProperties.FILTER_STATIC_CONTENT_REGEX, "/.*(html|js)$");
+        property(ServletProperties.FILTER_STATIC_CONTENT_REGEX, "/.*(html|js|css)$");
 
         register(EndpointController.class);
         register(EndpointConfigurationController.class);

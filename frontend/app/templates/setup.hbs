@@ -1,0 +1,14 @@
+<div id="setup">
+  <form>
+    <h2>Setup Scriptor Admin</h2>
+
+    <label>Scriptor API host (if other than "{{ model.defaultHost }}")</label>
+    {{ input type="text" placeholder="Host" value=model.host }}
+
+    <label>Scriptor API key</label>
+    {{ input type="text" placeholder="Token" value=model.token }}
+
+    <br/>
+    <button {{ action "setup" model }}>Setup</button>
+  </form>
+</div>

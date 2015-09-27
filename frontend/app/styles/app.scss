@@ -1,0 +1,133 @@
+$header-height: 50px;
+$default-padding: 20px;
+$color-primary: #f44336;
+
+html, body, #app-view, #main {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+}
+
+input[type=text] {
+  padding: 5px;
+  font-size: 1em;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #f1f0f0;
+  font-family: 'Open Sans', serif;
+}
+
+#header {
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  background: $color-primary;
+  padding: 15px;
+  box-sizing: border-box;
+  color: #fff;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+}
+
+#main {
+  display: flex;
+  padding-top: $header-height;
+
+  .new-endpoint {
+    position: absolute;
+    top: 0;
+    right: $default-padding;
+    font-size: 0.9em;
+  }
+}
+
+#setup {
+  margin: 50px auto 0 auto;
+}
+
+#endpoints {
+  border-right: 1px solid #e6e6e6;
+  width: 25%;
+  max-width: 250px;
+  min-width: 150px;
+
+  article {
+    padding: $default-padding/2 $default-padding;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}
+
+input[type=button], button {
+  appearance: none;
+  border: none;
+  padding: 5px 10px;
+  font-family: 'Open Sans', serif;
+  font-size: 1em;
+  border-radius: 5px;
+  margin: 10px 0;
+  background-color: $color-primary;
+  color: #fff;
+  outline: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active, &:focus {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+#active-endpoint {
+  flex: 1;
+  padding: $default-padding;
+}
+
+.endpoint-configurer {
+  label {
+    display: block;
+  }
+
+  input[type=text] {
+    display: block;
+  }
+
+  .content-type {
+    display: inline-block;
+    color: white;
+    background: black;
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
+
+  .editor {
+    width: 100%;
+    height: 500px;
+    margin-top: 10px;
+  }
+
+  .delete {
+    float: right;
+  }
+}

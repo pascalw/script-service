@@ -1,0 +1,26 @@
+<div class="endpoint-configurer">
+
+  <form>
+    {{# unless model.isNew }}
+      <button class="delete" {{action "delete" model}}>Delete</button>
+    {{/ unless }}
+
+    {{# unless model.isNew }}
+      <label>{{ model.id }}</label>
+    {{ else }}
+      {{ input type="text" placeholder="Slug" value=model.id }}
+    {{/ unless }}
+
+    {{ input type="text" placeholder="Content Type" value=model.contentType }}
+    {{ input type="text" placeholder="Access token" value=model.accessToken }}
+
+    <div class="editor">{{ model.script }}</div>
+
+    {{# if model.isNew }}
+      <button {{action "saveOrCreate" model}}>Create</button>
+    {{ else }}
+      <button {{action "saveOrCreate" model}}>Save</button>
+    {{/ if }}
+  </form>
+
+</div>
