@@ -8,6 +8,7 @@
     "test": "tests"
   },
   "scripts": {
+    "build-embedded": "BASE_URL=/admin/ ember build -e production",
     "build": "ember build",
     "start": "ember server",
     "test": "ember test"

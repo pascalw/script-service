@@ -19,10 +19,6 @@ module.exports = function(environment) {
     }
   };
 
-  if (environment === 'embedded') {
-    ENV.baseURL = '/admin/';
-  }
-
   if (environment === 'test') {
     // Testem prefers this...
     ENV.baseURL = '/';
@@ -36,7 +32,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = process.env.BASE_URL || '/';
   }
 
   return ENV;
