@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+
 import nl.pwiddershoven.scriptor.service.PageFetcher;
 
 import org.jsoup.nodes.Document;
@@ -15,11 +17,11 @@ public class ScraperModuleProviderTest {
 
     @Test
     public void returns_jsoup_document_for_requested_url() {
-        when(mockPageFetcher.fetch("http://example.org")).thenReturn("<html>\n" +
-                                                                     "  <head>\n" +
-                                                                     "    <title>Hello, world!</title>\n" +
-                                                                     "  </head>\n" +
-                                                                     "</html>");
+        when(mockPageFetcher.fetch("http://example.org", Collections.emptyMap())).thenReturn("<html>\n" +
+                                                                                             "  <head>\n" +
+                                                                                             "    <title>Hello, world!</title>\n" +
+                                                                                             "  </head>\n" +
+                                                                                             "</html>");
 
         Document document = scraperModule.scrape("http://example.org");
         assertEquals("Hello, world!", document.title());
