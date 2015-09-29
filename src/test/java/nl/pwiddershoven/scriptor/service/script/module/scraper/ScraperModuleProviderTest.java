@@ -26,4 +26,16 @@ public class ScraperModuleProviderTest {
         Document document = scraperModule.scrape("http://example.org");
         assertEquals("Hello, world!", document.title());
     }
+
+    @Test
+    public void returns_jsoup_document_for_html_string() {
+        Document document = scraperModule.parseHtml("<html><title>Hello, world!</title></html>", "http://example.org");
+        assertEquals("Hello, world!", document.title());
+    }
+
+    @Test
+    public void returns_jsoup_document_for_html_string_passes_base_uri() {
+        Document document = scraperModule.parseHtml("<html><a href=\"/relative\">Link</a></html>", "http://example.org");
+        assertEquals("http://example.org/relative", document.select("a").attr("abs:href"));
+    }
 }

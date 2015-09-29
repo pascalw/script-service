@@ -34,6 +34,10 @@ public class ScraperModuleProvider implements JsModuleProvider {
             return Jsoup.parse(pageSource, url);
         }
 
+        public Document parseHtml(String html, String baseUri) {
+            return Jsoup.parse(html, baseUri);
+        }
+
         @SuppressWarnings("unchecked")
         private Map<String, Object> unwrap(Map<String, Object> headers) {
             if (headers instanceof ScriptObjectMirror)
