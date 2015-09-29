@@ -9,6 +9,7 @@ import nl.pwiddershoven.scriptor.service.script.MarshalingHelper;
 import nl.pwiddershoven.scriptor.service.script.module.JsModule;
 import nl.pwiddershoven.scriptor.service.script.module.JsModuleProvider;
 
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,7 +18,14 @@ import com.google.api.client.http.apache.ApacheHttpTransport;
 
 @Component
 public class HttpModuleProvider implements JsModuleProvider {
-    private HttpModule httpModule = new HttpModule(new ApacheHttpTransport());
+    private HttpModule httpModule = new HttpModule(buildHttpTransport());
+
+    private ApacheHttpTransport buildHttpTransport() {
+        // Google-http-client is not fully compatible with apache http client 4.3.
+        // The minimal client however works. Does not support cookie handling, etc, but
+        // should be fine in most cases.
+        return new ApacheHttpTransport(HttpClients.createMinimal());
+    }
 
     public static class HttpModule implements JsModule {
         private final HttpRequestFactory httpRequestFactory;
