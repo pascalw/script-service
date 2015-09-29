@@ -1,12 +1,7 @@
 package nl.pwiddershoven.scriptor.service.script.module.scraper;
 
-import java.util.Collections;
-import java.util.Map;
-
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.scriptor.service.PageFetcher;
 import nl.pwiddershoven.scriptor.service.script.JsContext;
-import nl.pwiddershoven.scriptor.service.script.MarshalingHelper;
 import nl.pwiddershoven.scriptor.service.script.module.JsModule;
 import nl.pwiddershoven.scriptor.service.script.module.JsModuleProvider;
 
@@ -26,24 +21,12 @@ public class ScraperModuleProvider implements JsModuleProvider {
         }
 
         public Document scrape(String url) {
-            return scrape(url, Collections.emptyMap());
-        }
-
-        public Document scrape(String url, Map<String, Object> headers) {
-            String pageSource = pageFetcher.fetch(url, unwrap(headers));
+            String pageSource = pageFetcher.fetch(url);
             return Jsoup.parse(pageSource, url);
         }
 
         public Document parseHtml(String html, String baseUri) {
             return Jsoup.parse(html, baseUri);
-        }
-
-        @SuppressWarnings("unchecked")
-        private Map<String, Object> unwrap(Map<String, Object> headers) {
-            if (headers instanceof ScriptObjectMirror)
-                headers = (Map<String, Object>) MarshalingHelper.unwrap((ScriptObjectMirror) headers);
-
-            return headers;
         }
     }
 
