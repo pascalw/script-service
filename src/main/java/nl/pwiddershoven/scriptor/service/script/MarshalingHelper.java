@@ -5,6 +5,12 @@ import java.util.*;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public class MarshalingHelper {
+    public static Object unwrap(Object object) {
+        if (object instanceof ScriptObjectMirror)
+            return unwrap((ScriptObjectMirror) object);
+
+        return object;
+    }
 
     public static Object unwrap(ScriptObjectMirror jso) {
         if (jso.isArray()) {
