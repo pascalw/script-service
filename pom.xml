@@ -101,6 +101,22 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>skip-frontend</id>
+            <activation>
+                <property>
+                    <name>skipFrontend</name>
+                </property>
+            </activation>
+            <properties>
+                <skip.npm>true</skip.npm>
+                <skip.install-node-and-npm>true</skip.install-node-and-npm>
+                <skip.bower>true</skip.bower>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
