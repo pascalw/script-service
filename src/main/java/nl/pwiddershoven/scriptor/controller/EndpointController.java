@@ -17,12 +17,14 @@ import org.springframework.stereotype.Component;
 @Path("/")
 public class EndpointController {
     private final Logger logger = Logger.getLogger(EndpointController.class);
+    private final ScriptExecutor scriptExecutor;
+    private final EndpointConfigurationRepository endpointConfigurationRepository;
 
     @Autowired
-    private ScriptExecutor scriptExecutor;
-
-    @Autowired
-    private EndpointConfigurationRepository endpointConfigurationRepository;
+    public EndpointController(ScriptExecutor scriptExecutor, EndpointConfigurationRepository endpointConfigurationRepository) {
+        this.scriptExecutor = scriptExecutor;
+        this.endpointConfigurationRepository = endpointConfigurationRepository;
+    }
 
     @POST
     @Path("/endpointPreview")

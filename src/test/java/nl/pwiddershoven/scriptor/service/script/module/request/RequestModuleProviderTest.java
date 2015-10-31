@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 
 public class RequestModuleProviderTest {
-    private RequestModuleProvider requestModuleProvider = new RequestModuleProvider();
+    private RequestModuleProvider requestModuleProvider = new RequestModuleProvider(new ObjectMapper());
     private JsContext jsContext = mock(JsContext.class);
 
     @Test
@@ -35,8 +35,6 @@ public class RequestModuleProviderTest {
 
     @Test
     public void provides_json_parsed_request_body() throws IOException {
-        requestModuleProvider.setObjectMapper(new ObjectMapper());
-
         ContainerRequestContext mockContainerRequest = mock(ContainerRequestContext.class);
         when(mockContainerRequest.getEntityStream()).thenReturn(new ByteArrayInputStream("{\"hello\": \"world!\"}".getBytes(StandardCharsets.UTF_8)));
 

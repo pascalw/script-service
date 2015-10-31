@@ -29,7 +29,7 @@ public class ScriptExecutorTest {
         }
     }
 
-    private ScriptExecutor scriptExecutor = new ScriptExecutor();
+    private ScriptExecutor scriptExecutor = new ScriptExecutor(Sets.newHashSet(new MyModuleProvider()));
 
     @Test
     public void executes_scripts() {
@@ -38,8 +38,6 @@ public class ScriptExecutorTest {
 
     @Test
     public void loads_and_exposes_modules_by_name() {
-        scriptExecutor.setJsModuleProviders(Sets.newHashSet(new MyModuleProvider()));
-
         assertEquals("world", scriptExecutor.execute("return require('myModule').hello();"));
     }
 

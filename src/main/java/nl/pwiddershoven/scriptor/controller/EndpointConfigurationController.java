@@ -20,9 +20,12 @@ import org.springframework.stereotype.Component;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/configs")
 public class EndpointConfigurationController {
+    private EndpointConfigurationRepository endpointConfigurationRepository;
 
     @Autowired
-    private EndpointConfigurationRepository endpointConfigurationRepository;
+    public EndpointConfigurationController(EndpointConfigurationRepository endpointConfigurationRepository) {
+        this.endpointConfigurationRepository = endpointConfigurationRepository;
+    }
 
     @POST
     public Response createConfiguration(@Valid EndpointConfigurationDTO endpointConfigurationDTO) {

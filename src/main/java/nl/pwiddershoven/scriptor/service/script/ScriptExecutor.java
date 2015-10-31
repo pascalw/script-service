@@ -19,9 +19,14 @@ public class ScriptExecutor {
     private ScriptEngine jsEngine;
     private Map<String, JsModuleProvider> jsModuleProviders = new HashMap<>();
 
-    public ScriptExecutor() {
+    @Autowired
+    public ScriptExecutor(Set<JsModuleProvider> jsModuleProviders) {
         NashornScriptEngineFactory scriptEngineFactory = new NashornScriptEngineFactory();
         jsEngine = scriptEngineFactory.getScriptEngine(new NashornClassFilter());
+
+        for (JsModuleProvider moduleProvider : jsModuleProviders) {
+            this.jsModuleProviders.put(moduleProvider.name(), moduleProvider);
+        }
     }
 
     public Object execute(String script) {
@@ -73,13 +78,6 @@ public class ScriptExecutor {
         @SuppressWarnings("unchecked")
         public <T> T getAttribute(String attributeName, Class<T> attributeClass) {
             return (T) attributes.get(attributeName);
-        }
-    }
-
-    @Autowired
-    public void setJsModuleProviders(Set<JsModuleProvider> jsModuleProviders) {
-        for (JsModuleProvider moduleProvider : jsModuleProviders) {
-            this.jsModuleProviders.put(moduleProvider.name(), moduleProvider);
         }
     }
 }

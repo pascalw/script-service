@@ -22,6 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RequestModuleProvider implements JsModuleProvider {
     private ObjectMapper objectMapper;
 
+    @Autowired
+    public RequestModuleProvider(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public String name() {
         return "request";
@@ -86,10 +91,5 @@ public class RequestModuleProvider implements JsModuleProvider {
             // this is Jersey specific, there doesn't seem to be a JAX-RS generic way to do this.
             return ((Form) request.getProperty(InternalServerProperties.FORM_DECODED_PROPERTY)).asMap();
         }
-    }
-
-    @Autowired
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
     }
 }

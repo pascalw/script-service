@@ -20,15 +20,19 @@ import com.mongodb.DBObject;
 public class MongoEndpointConfigurationRepository implements EndpointConfigurationRepository {
     private static final String COLLECTION_NAME = "endpointConfigurations";
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
     private static class StorageObject {
         @Id
         public String id;
         public String script;
         public String contentType;
         public String accessToken;
+    }
+
+    private final MongoTemplate mongoTemplate;
+
+    @Autowired
+    public MongoEndpointConfigurationRepository(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Override
