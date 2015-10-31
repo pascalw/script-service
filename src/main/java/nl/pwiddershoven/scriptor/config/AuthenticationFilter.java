@@ -21,12 +21,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
-        if (isAuthenticationRequired()) {
-            String requestToken = extractToken(containerRequestContext);
+        if (!isAuthenticationRequired())
+            return;
 
-            if (!VALID_ACCESS_TOKEN.equals(requestToken))
-                containerRequestContext.abortWith(DENIED_RESPONSE);
-        }
+        if (!VALID_ACCESS_TOKEN.equals(extractToken(containerRequestContext)))
+            containerRequestContext.abortWith(DENIED_RESPONSE);
     }
 
     private String extractToken(ContainerRequestContext requestContext) {

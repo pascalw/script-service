@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import nl.pwiddershoven.scriptor.repository.EndpointConfigurationRepository;
 import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Component;
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/configs")
 public class EndpointConfigurationController {
-    private final Logger logger = Logger.getLogger(EndpointConfigurationController.class);
 
     @Autowired
     private EndpointConfigurationRepository endpointConfigurationRepository;
@@ -39,22 +37,19 @@ public class EndpointConfigurationController {
     }
 
     @GET
-    public List<EndpointConfigurationDTO> getEndpointConfigurations(
-            @PathParam("id") String id,
-            @DefaultValue("1") @QueryParam("page") int page,
-            @DefaultValue("10") @QueryParam("perPage") int perPage) {
+    public List<EndpointConfigurationDTO> getEndpointConfigurations(@PathParam("id") String id, @DefaultValue("1") @QueryParam("page") int page, @DefaultValue("10") @QueryParam("perPage") int perPage) {
         int offset = (page - 1) * perPage;
         List<EndpointConfiguration> endpointConfigurations = endpointConfigurationRepository.findAll(offset, perPage);
 
         return endpointConfigurations.stream()
-                .map(this::buildDTO).collect(Collectors.toList());
+                .map(this::buildDTO)
+                .collect(Collectors.toList());
     }
 
     @GET
     @Path("/{id}")
     public EndpointConfigurationDTO getEndpointConfiguration(@PathParam("id") String id) {
-        EndpointConfiguration endpointConfiguration = findConfigurationOr404(id);
-        return buildDTO(endpointConfiguration);
+        return buildDTO(findConfigurationOr404(id));
     }
 
     @DELETE
@@ -72,14 +67,11 @@ public class EndpointConfigurationController {
     }
 
     private EndpointConfigurationDTO buildDTO(EndpointConfiguration endpointConfiguration) {
-        EndpointConfigurationDTO endpointConfigurationDTO = new EndpointConfigurationDTO();
-
-        endpointConfigurationDTO.id = endpointConfiguration.id;
-        endpointConfigurationDTO.script = endpointConfiguration.processingScript;
-        endpointConfigurationDTO.contentType = endpointConfiguration.contentType;
-        endpointConfigurationDTO.accessToken = endpointConfiguration.accessToken;
-
-        return endpointConfigurationDTO;
+        return new EndpointConfigurationDTO(
+                endpointConfiguration.id,
+                endpointConfiguration.processingScript,
+                endpointConfiguration.contentType,
+                endpointConfiguration.accessToken);
     }
 
     private EndpointConfiguration findConfigurationOr404(String id) {

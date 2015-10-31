@@ -27,8 +27,7 @@ public class EndpointController {
     @POST
     @Path("/endpointPreview")
     public Response execute(EndpointConfigurationDTO endpointConfigurationDTO, @Context ContainerRequestContext requestContext) {
-        EndpointConfiguration endpointConfiguration = endpointConfigurationDTO.toEndpointConfiguration();
-        return doExecute(endpointConfiguration, requestContext);
+        return doExecute(endpointConfigurationDTO.toEndpointConfiguration(), requestContext);
     }
 
     @GET
@@ -80,6 +79,7 @@ public class EndpointController {
 
         if (endpointConfiguration == null)
             throw new WebApplicationException(404);
+
         return endpointConfiguration;
     }
 
@@ -107,11 +107,11 @@ public class EndpointController {
     }
 
     private Response ensureMediaType(Response response, EndpointConfiguration endpointConfiguration) {
-        if (response.getMediaType() == null)
-            response = Response.fromResponse(response)
-                    .type(endpointConfiguration.contentType)
-                    .build();
+        if (response.getMediaType() != null)
+            return response;
 
-        return response;
+        return Response.fromResponse(response)
+                .type(endpointConfiguration.contentType)
+                .build();
     }
 }
