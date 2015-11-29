@@ -3,7 +3,6 @@ package nl.pwiddershoven.scriptor.service.script;
 import java.util.*;
 
 import javax.script.*;
-import javax.ws.rs.container.ContainerRequestContext;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -30,10 +29,10 @@ public class ScriptExecutor {
     }
 
     public Object execute(String script) {
-        return execute(script, null);
+        return execute(new Script(null, script, null));
     }
 
-    public Object execute(String script, ContainerRequestContext requestContext) {
+    public Object execute(Script script) {
         try {
             // create a fresh new scope for each script
             ScriptContext ctx = new SimpleScriptContext();
@@ -42,12 +41,12 @@ public class ScriptExecutor {
             bindings.put("quit", null);
             bindings.put("exit", null);
 
-            bindings.put("__ctx", new JsContext(requestContext));
+            bindings.put("__ctx", new JsContext(script));
             bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };", ctx));
 
             ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 
-            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, script), ctx);
+            Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, script.code), ctx);
 
             if (result instanceof ScriptObjectMirror)
                 result = MarshalingHelper.unwrap((ScriptObjectMirror) result);
@@ -61,8 +60,9 @@ public class ScriptExecutor {
     public class JsContext implements nl.pwiddershoven.scriptor.service.script.JsContext {
         private final Map<String, Object> attributes = new HashMap<>();
 
-        public JsContext(ContainerRequestContext requestContext) {
-            attributes.put("request", requestContext);
+        public JsContext(Script script) {
+            attributes.put("id", script.id);
+            attributes.put("request", script.requestContext);
         }
 
         @Override

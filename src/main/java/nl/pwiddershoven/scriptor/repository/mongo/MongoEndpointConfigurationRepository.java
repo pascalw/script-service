@@ -1,8 +1,9 @@
-package nl.pwiddershoven.scriptor.repository;
+package nl.pwiddershoven.scriptor.repository.mongo;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import nl.pwiddershoven.scriptor.repository.EndpointConfigurationRepository;
 import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
