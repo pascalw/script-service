@@ -7,6 +7,7 @@ import javax.ws.rs.core.*;
 import nl.pwiddershoven.scriptor.config.AuthenticationNotRequired;
 import nl.pwiddershoven.scriptor.repository.EndpointConfigurationRepository;
 import nl.pwiddershoven.scriptor.service.EndpointConfiguration;
+import nl.pwiddershoven.scriptor.service.script.Script;
 import nl.pwiddershoven.scriptor.service.script.ScriptExecutor;
 
 import org.apache.log4j.Logger;
@@ -94,7 +95,9 @@ public class EndpointController {
 
     private Response doExecute(EndpointConfiguration endpointConfiguration, ContainerRequestContext requestContext) {
         long start = System.currentTimeMillis();
-        Object result = scriptExecutor.execute(endpointConfiguration.processingScript, requestContext);
+
+        Script script = new Script(endpointConfiguration.id, endpointConfiguration.processingScript, requestContext);
+        Object result = scriptExecutor.execute(script);
         long end = System.currentTimeMillis();
 
         logger.info("Processing took " + (end - start));
