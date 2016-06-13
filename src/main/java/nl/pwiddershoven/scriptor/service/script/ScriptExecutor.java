@@ -4,12 +4,12 @@ import java.util.*;
 
 import javax.script.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import nl.pwiddershoven.scriptor.service.script.module.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ScriptExecutor {
@@ -44,7 +44,7 @@ public class ScriptExecutor {
             bindings.put("__ctx", new JsContext(script));
             bindings.put("require", jsEngine.eval("function(moduleName) { return __ctx.require(moduleName); };", ctx));
 
-            ctx.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+            ctx.setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
 
             Object result = jsEngine.eval(String.format(SCRIPT_WRAPPER, script.code), ctx);
 
